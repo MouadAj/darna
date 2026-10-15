@@ -2,6 +2,18 @@ import {createHash} from 'node:crypto';
 import {SessionService} from './session.service';
 
 describe('SessionService logout', () => {
+  it('issues a secure host-only cookie and persists only the token hash in production', async () => {
+    const prisma = {session: {create: jest.fn()}};
+    const config = {get: (key: string, fallback: unknown) => key === 'NODE_ENV' ? 'production' : fallback};
+    const response = {cookie: jest.fn()};
+    await new SessionService(prisma as never, config as never).create('user-a', response as never);
+    const [name, token, options] = response.cookie.mock.calls[0];
+    expect(name).toBe('housefamily_session');
+    expect(options).toMatchObject({secure: true, httpOnly: true, sameSite: 'lax', path: '/'});
+    expect(options).not.toHaveProperty('domain');
+    expect(prisma.session.create).toHaveBeenCalledWith({data: {userId: 'user-a', tokenHash: createHash('sha256').update(token).digest('hex'), expiresAt: expect.any(Date)}});
+  });
+
   it('revokes the current database session and clears its cookie', async () => {
     const prisma = {session: {deleteMany: jest.fn()}};
     const config = {get: jest.fn((_key: string, fallback: unknown) => fallback)};

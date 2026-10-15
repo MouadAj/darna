@@ -16,7 +16,16 @@
     "seeAll": "Tout voir",
     "today": "Aujourd’hui",
     "yesterday": "Hier",
-    "you": "Vous"
+    "you": "Vous",
+    "actionFailed": "Cette action n’a pas abouti. Veuillez réessayer.",
+    "loadFailed": "Impossible de charger ces informations. Vérifiez votre connexion et réessayez.",
+    "working": "Veuillez patienter…",
+    "saving": "Enregistrement…",
+    "starting": "Démarrage des courses…",
+    "finishing": "Fin des courses…",
+    "sending": "Envoi…",
+    "dismiss": "Fermer la notification",
+    "itemStatus": "État du produit"
   },
   "nav": {
     "home": "Accueil",
@@ -41,7 +50,9 @@
     "private": "Privé pour votre famille · Connexion sécurisée",
     "benefit1": "Voir les besoins de la maison",
     "benefit2": "Faire les courses avec une liste claire",
-    "benefit3": "Garder toute la famille synchronisée"
+    "benefit3": "Garder toute la famille synchronisée",
+    "openingDemo": "Ouverture de la démo…",
+    "quote": "Les petits besoins de la maison ne devraient jamais devenir de grandes discussions."
   },
   "auth": {
     "registerEyebrow": "Créez votre foyer",
@@ -70,7 +81,12 @@
     "checkSpam": "Ouvrez le lien pour confirmer votre compte. Vérifiez aussi les courriers indésirables.",
     "resent": "Un nouvel e-mail de confirmation a été envoyé.",
     "openDevelopmentLink": "Ouvrir la confirmation de développement",
-    "backToLogin": "Retour à la connexion"
+    "backToLogin": "Retour à la connexion",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "loggingIn": "Connexion…",
+    "creatingAccount": "Création de votre compte…",
+    "resending": "Envoi de la confirmation…"
   },
   "verify": {
     "title": "Confirmation de votre e-mail…",
@@ -85,7 +101,8 @@
     "label": "Nom du foyer",
     "placeholder": "ex. Famille Ajmani",
     "button": "Créer notre foyer",
-    "hint": "Vous pourrez ensuite inviter votre famille."
+    "hint": "Vous pourrez ensuite inviter votre famille.",
+    "creating": "Création de votre foyer…"
   },
   "home": {
     "morning": "Bonjour, {name}",
@@ -102,7 +119,9 @@
     "everythingGoodBody": "Votre famille n’a rien signalé comme nécessaire.",
     "tapHint": "Touchez un produit puis choisissez son état.",
     "issues": "À réparer",
-    "viewIssues": "Voir les problèmes de la maison"
+    "viewIssues": "Voir les problèmes de la maison",
+    "nothingNeeded": "Aucun produit signalé comme nécessaire",
+    "lowReminder": "Certains produits sont presque terminés. Retrouvez-les dans la liste des besoins."
   },
   "status": {
     "AVAILABLE": "Nous en avons",
@@ -135,7 +154,12 @@
     "other": "Autre",
     "added": "Ajouté aux besoins de la maison",
     "updated": "Produit mis à jour",
-    "noResults": "Aucun produit ne correspond."
+    "noResults": "Aucun produit ne correspond.",
+    "allNeeds": "Tous les besoins",
+    "clearFilters": "Effacer les filtres",
+    "filteredEmpty": "Aucun produit ne correspond à ces filtres",
+    "filteredEmptyBody": "Choisissez un autre état ou une autre catégorie, ou effacez les filtres pour voir tous les besoins.",
+    "tryAnotherSearch": "Essayez une autre recherche ou catégorie, ou ajoutez un nouveau produit."
   },
   "shopping": {
     "title": "Courses",
@@ -147,7 +171,10 @@
     "empty": "Rien à acheter",
     "emptyBody": "Signalez d’abord un besoin.",
     "purchased": "Acheté",
-    "notPurchased": "Toujours nécessaire"
+    "notPurchased": "Toujours nécessaire",
+    "readyTitle": "Prêt pour les courses ?",
+    "readyBody": "Commencez les courses avec tous les besoins de votre foyer, y compris les produits presque terminés.",
+    "progress": "Progression des courses"
   },
   "family": {
     "title": "{name}",
@@ -213,7 +240,8 @@
     "handledBy": "{name} s’en occupe",
     "reportedBy": "Signalé par {name}",
     "empty": "Rien à réparer",
-    "emptyBody": "La liste est vide."
+    "emptyBody": "La liste est vide.",
+    "added": "Problème ajouté"
   },
   "invite": {
     "hello": "Bonjour {name}",

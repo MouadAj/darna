@@ -22,7 +22,9 @@ export function NotificationsPrompt() {
   const [dismissed, setDismissed] = useState(false);
   const [pending, setPending] = useState(false);
   const canPrompt = useSyncExternalStore(() => () => undefined, () => typeof Notification !== 'undefined' && Notification.permission === 'default' && localStorage.getItem('housefamily-notifications-later') !== 'true', () => false);
-  const visible = canPrompt && !dismissed;
+  const configured = process.env.NEXT_PUBLIC_PUSH_ENABLED === 'true' && Boolean(process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY);
+  const supported = typeof window !== 'undefined' && window.isSecureContext && 'serviceWorker' in navigator && 'PushManager' in window;
+  const visible = configured && supported && canPrompt && !dismissed;
   if (!visible) return null;
   const dismiss = () => { localStorage.setItem('housefamily-notifications-later', 'true'); setDismissed(true); };
   const enable = async () => {

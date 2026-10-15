@@ -1,0 +1,35 @@
+# Import at https://dashboard.render.com/select-repo?type=blueprint
+# Database is Neon Free, configured separately; no paid Render database is created.
+services:
+  - type: web
+    name: darna-api
+    runtime: node
+    plan: free
+    region: frankfurt
+    branch: main
+    buildCommand: npm ci --include=dev && npm run build:api
+    startCommand: npm run start:api
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 24.x
+      - key: NODE_ENV
+        value: production
+      - key: DEV_AUTH_ENABLED
+        value: "false"
+      - key: EMAIL_FROM_NAME
+        value: Darna
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: WEB_ORIGIN
+        sync: false
+      - key: EMAILJS_SERVICE_ID
+        sync: false
+      - key: EMAILJS_TEMPLATE_ID
+        sync: false
+      - key: EMAILJS_PUBLIC_KEY
+        sync: false
+      - key: EMAILJS_PRIVATE_KEY
+        sync: false

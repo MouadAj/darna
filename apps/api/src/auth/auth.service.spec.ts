@@ -1,4 +1,4 @@
-import {UnauthorizedException} from '@nestjs/common';
+import {ForbiddenException, UnauthorizedException} from '@nestjs/common';
 import {argon2id, hash} from 'argon2';
 import {createHash} from 'node:crypto';
 import {AuthService} from './auth.service';
@@ -10,6 +10,14 @@ describe('AuthService', () => {
   const email = {send: jest.fn(), developmentPreviewEnabled: jest.fn().mockReturnValue(false)};
 
   beforeEach(() => jest.clearAllMocks());
+
+  it('blocks demo sign-in in production even if the development flag was left on', async () => {
+    const productionConfig = {get: (key: string) => ({NODE_ENV: 'production', DEV_AUTH_ENABLED: 'true'}[key])};
+    const prisma = {user: {findUnique: jest.fn()}};
+    const service = new AuthService(prisma as never, productionConfig as never, email as never);
+    await expect(service.devLogin('mouad@housefamily.local')).rejects.toBeInstanceOf(ForbiddenException);
+    expect(prisma.user.findUnique).not.toHaveBeenCalled();
+  });
 
   it('registers an unverified user with a hash and emails a non-stored token', async () => {
     const created = {id: 'user-a', name: 'Mouad', email: 'mouad@example.com', emailVerifiedAt: null};

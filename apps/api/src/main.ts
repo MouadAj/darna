@@ -7,6 +7,7 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import {AppModule} from './app.module';
 import {ApiExceptionFilter} from './common/errors/api-exception.filter';
+import {resolveApiPort} from './common/runtime-config';
 
 async function bootstrap() {
   // Passing the adapter explicitly avoids Nest's runtime package loader, which
@@ -33,7 +34,7 @@ async function bootstrap() {
     .build();
   SwaggerModule.setup('api/docs', app, SwaggerModule.createDocument(app, swaggerConfig));
 
-  const port = config.get<number>('API_PORT', 4000);
+  const port = resolveApiPort({PORT: config.get<string>('PORT'), API_PORT: config.get<string>('API_PORT')});
   await app.listen(port, '0.0.0.0');
   console.info(`HouseFamily API running at http://localhost:${port}/api`);
 }

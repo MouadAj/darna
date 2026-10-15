@@ -56,7 +56,7 @@ export class EmailService {
   }
 
   developmentPreviewEnabled(): boolean {
-    return this.config.get('DEV_AUTH_ENABLED', 'false') === 'true' && !this.isConfigured();
+    return this.config.get('NODE_ENV') !== 'production' && this.config.get('DEV_AUTH_ENABLED', 'false') === 'true' && !this.isConfigured();
   }
 
   private isConfigured(): boolean {

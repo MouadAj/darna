@@ -1,4 +1,6 @@
-# HouseFamily
+# Darna
+
+Deployment instructions for the free hosting setup are in [docs/deployment.md](docs/deployment.md).
 
 HouseFamily is a mobile-first, installable family-home app for household essentials, shopping, small home issues, family invitations, and a shared activity history. It is designed around fast, recognizable actions and large, labeled controls.
 
@@ -110,6 +112,8 @@ The database and authenticated subscription endpoint are prepared for Web Push. 
 | Variable | Purpose |
 | --- | --- |
 | `DATABASE_URL` | PostgreSQL connection string used by Prisma and the API |
+| `DIRECT_URL` | Optional direct database connection for migrations; use Neon's unpooled endpoint |
+| `PORT` | Hosting-provider port; takes precedence over `API_PORT` |
 | `API_PORT` | NestJS port, default `4000` |
 | `WEB_ORIGIN` | Allowed credentialed CORS origins; comma-separated when needed |
 | `SESSION_COOKIE_NAME` | HTTP-only session cookie name |
@@ -124,5 +128,7 @@ The database and authenticated subscription endpoint are prepared for Web Push. 
 | `DEV_AUTH_ENABLED` | Enables logged preview links and demo sign-in; development only |
 | `NEXT_PUBLIC_API_URL` | Browser-visible API base URL; `/api` uses the recommended same-origin proxy |
 | `API_INTERNAL_URL` | Server-side API origin used by the Next.js rewrite |
+| `NEXT_PUBLIC_PUSH_ENABLED` | Keep `false` until push delivery is configured |
+| `NEXT_PUBLIC_VAPID_PUBLIC_KEY` | Public push subscription key; only needed when push is enabled |
 
 Production should use HTTPS, a managed PostgreSQL instance, strict production origins, `DEV_AUTH_ENABLED=false`, and a secrets manager for environment configuration.

@@ -4,6 +4,6 @@ import {useState} from 'react';
 import {ServiceWorkerRegistration} from './service-worker-registration';
 import {ToastProvider} from './toast';
 export function Providers({children}: {children: React.ReactNode}) {
-  const [client] = useState(() => new QueryClient({defaultOptions: {queries: {staleTime: 20_000, retry: 1, refetchOnWindowFocus: false}}}));
+  const [client] = useState(() => new QueryClient({defaultOptions: {queries: {staleTime: 20_000, retry: 1, refetchOnWindowFocus: true, refetchOnReconnect: true}}}));
   return <QueryClientProvider client={client}><ToastProvider>{children}<ServiceWorkerRegistration /></ToastProvider></QueryClientProvider>;
 }

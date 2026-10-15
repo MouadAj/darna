@@ -86,5 +86,5 @@ export class AuthService {
   private normalizeEmail(email: string) { return email.trim().toLowerCase(); }
   private hashToken(token: string) { return createHash('sha256').update(token).digest('hex'); }
   private webOrigin() { return this.config.get('WEB_ORIGIN', 'http://localhost:3000').split(',')[0]; }
-  private isDev() { return this.config.get('DEV_AUTH_ENABLED', 'false') === 'true'; }
+  private isDev() { return this.config.get('NODE_ENV') !== 'production' && this.config.get('DEV_AUTH_ENABLED', 'false') === 'true'; }
 }

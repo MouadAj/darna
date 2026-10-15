@@ -31,7 +31,7 @@ export default function LoginPage() {
       <div className="field"><label htmlFor="email">{t('email')}</label><input className="input" id="email" type="email" inputMode="email" autoComplete="email" {...register('email')}/>{errors.email&&<p className="field-error">{t('emailError')}</p>}</div>
       <PasswordField id="password" label={t('password')} autoComplete="current-password" registration={register('password')} error={errors.password?t('passwordError'):undefined}/>
       {errors.root&&<div className="auth-error" role="alert"><p className="field-error">{errors.root.message}</p>{errors.root.message?.toLowerCase().includes('confirm')&&<button type="button" className="text-button" onClick={resend}>{t('resend')}</button>}</div>}
-      <button type="submit" className="button full" disabled={isSubmitting}>{isSubmitting?'…':t('login')}</button>
+      <button type="submit" className="button full" disabled={isSubmitting}>{isSubmitting?t('loggingIn'):t('login')}</button>
     </form>
     <AuthSwitch text={t('newHere')} href={`/${locale}/register`} label={t('createAccount')}/>
   </AuthCard>;

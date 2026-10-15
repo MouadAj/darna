@@ -16,7 +16,16 @@
     "seeAll": "See all",
     "today": "Today",
     "yesterday": "Yesterday",
-    "you": "You"
+    "you": "You",
+    "actionFailed": "That action didn't finish. Please try again.",
+    "loadFailed": "We couldn't load this information. Check your connection and try again.",
+    "working": "Please wait…",
+    "saving": "Saving…",
+    "starting": "Starting shopping…",
+    "finishing": "Finishing shopping…",
+    "sending": "Sending…",
+    "dismiss": "Dismiss notification",
+    "itemStatus": "Item status"
   },
   "nav": {
     "home": "Home",
@@ -41,7 +50,9 @@
     "private": "Private to your family · Secure sign-in",
     "benefit1": "See what your home needs",
     "benefit2": "Shop with one clear list",
-    "benefit3": "Keep the whole family in sync"
+    "benefit3": "Keep the whole family in sync",
+    "openingDemo": "Opening the demo…",
+    "quote": "The little things a home needs should never become a big conversation."
   },
   "auth": {
     "registerEyebrow": "Create your family home",
@@ -70,7 +81,12 @@
     "checkSpam": "Open the link to confirm your account. If it is not there, check your spam folder.",
     "resent": "A new confirmation email is on its way.",
     "openDevelopmentLink": "Open development confirmation",
-    "backToLogin": "Back to login"
+    "backToLogin": "Back to login",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "loggingIn": "Logging in…",
+    "creatingAccount": "Creating your account…",
+    "resending": "Sending confirmation…"
   },
   "verify": {
     "title": "Confirming your email…",
@@ -85,7 +101,8 @@
     "label": "Family home name",
     "placeholder": "e.g. Ajmani Family",
     "button": "Create our home",
-    "hint": "You’ll invite family members next."
+    "hint": "You’ll invite family members next.",
+    "creating": "Creating your home…"
   },
   "home": {
     "morning": "Good morning, {name}",
@@ -102,7 +119,9 @@
     "everythingGoodBody": "Your family hasn’t marked anything as needed.",
     "tapHint": "Tap an item, then choose its new status.",
     "issues": "Things to fix",
-    "viewIssues": "View home issues"
+    "viewIssues": "View home issues",
+    "nothingNeeded": "Nothing marked as needed",
+    "lowReminder": "Some items are running low. You can find them in your Needs list."
   },
   "status": {
     "AVAILABLE": "We have it",
@@ -135,7 +154,12 @@
     "other": "Other",
     "added": "Added to what the house needs",
     "updated": "Household item updated",
-    "noResults": "No household item matches that search."
+    "noResults": "No household item matches that search.",
+    "allNeeds": "All needs",
+    "clearFilters": "Clear filters",
+    "filteredEmpty": "No items match these filters",
+    "filteredEmptyBody": "Try another status or category, or clear the filters to see all household needs.",
+    "tryAnotherSearch": "Try a different search or category, or add something new."
   },
   "shopping": {
     "title": "Shopping",
@@ -147,7 +171,10 @@
     "empty": "Nothing to shop for",
     "emptyBody": "Mark something as needed first, and it will appear here.",
     "purchased": "Purchased",
-    "notPurchased": "Still needed"
+    "notPurchased": "Still needed",
+    "readyTitle": "Ready to go shopping?",
+    "readyBody": "Start a trip with everything your household needs, including items running low.",
+    "progress": "Shopping progress"
   },
   "family": {
     "title": "{name}",
@@ -213,7 +240,8 @@
     "handledBy": "{name} is handling this",
     "reportedBy": "Reported by {name}",
     "empty": "Nothing needs fixing",
-    "emptyBody": "Your home issue list is clear."
+    "emptyBody": "Your home issue list is clear.",
+    "added": "Home issue added"
   },
   "invite": {
     "hello": "Hello {name}",

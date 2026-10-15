@@ -38,7 +38,7 @@ export default function RegisterPage() {
       <PasswordField id="password" label={t('password')} autoComplete="new-password" registration={register('password')} error={errors.password?t('passwordError'):undefined}/>
       <PasswordField id="confirm-password" label={t('confirmPassword')} autoComplete="new-password" registration={register('confirmPassword')} error={errors.confirmPassword?t('passwordMismatch'):undefined}/>
       {errors.root&&<p className="field-error" role="alert">{errors.root.message}</p>}
-      <button type="submit" className="button full" disabled={isSubmitting}>{isSubmitting?'…':t('createAccount')}</button>
+      <button type="submit" className="button full" disabled={isSubmitting}>{isSubmitting?t('creatingAccount'):t('createAccount')}</button>
     </form>
     <AuthSwitch text={t('haveAccount')} href={`/${locale}/login`} label={t('login')}/>
   </AuthCard>;

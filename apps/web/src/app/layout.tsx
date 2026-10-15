@@ -1,8 +1,9 @@
 import type {Metadata, Viewport} from 'next';
-import {Geist} from 'next/font/google';
+import {DM_Sans, Noto_Sans_Arabic} from 'next/font/google';
 import './globals.css';
 
-const geist = Geist({subsets: ['latin'], variable: '--font-geist'});
+const dmSans = DM_Sans({subsets: ['latin', 'latin-ext'], variable: '--font-latin', display: 'swap'});
+const notoArabic = Noto_Sans_Arabic({subsets: ['arabic'], variable: '--font-arabic', display: 'swap', preload: false});
 export const metadata: Metadata = {
   title: {default: 'HouseFamily', template: '%s · HouseFamily'},
   description: 'One calm, private place for everything your home needs.',
@@ -18,5 +19,5 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {themeColor: '#F8F7F4', width: 'device-width', initialScale: 1, viewportFit: 'cover'};
 
 export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
-  return <html lang="en" className={geist.variable}><body>{children}</body></html>;
+  return <html lang="en" className={`${dmSans.variable} ${notoArabic.variable}`}><body>{children}</body></html>;
 }
