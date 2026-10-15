@@ -258,5 +258,12 @@
     "explain": "We’ll ask your browser only after you choose to enable notifications.",
     "enabled": "Notifications are ready",
     "unavailable": "Notifications could not be enabled on this device"
+  },
+  "notFound": {
+    "eyebrow": "404 · Page not found",
+    "title": "A little lost? Let’s get you home.",
+    "description": "We couldn’t find this page. The link may have changed, or the address might have a typo.",
+    "home": "Back to home",
+    "hint": "Your home is still right here."
   }
 }

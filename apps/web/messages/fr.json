@@ -258,5 +258,12 @@
     "explain": "Le navigateur demandera l’autorisation uniquement après votre choix.",
     "enabled": "Les notifications sont prêtes",
     "unavailable": "Les notifications ne sont pas disponibles sur cet appareil"
+  },
+  "notFound": {
+    "eyebrow": "404 · Page introuvable",
+    "title": "Un peu perdu ? Retrouvons la maison.",
+    "description": "Cette page est introuvable. Le lien a peut-être changé ou l’adresse contient une erreur.",
+    "home": "Retour à l’accueil",
+    "hint": "Votre maison est toujours là."
   }
 }
