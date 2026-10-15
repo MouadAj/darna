@@ -4,7 +4,7 @@ import {NestFactory} from '@nestjs/core';
 import {ExpressAdapter} from '@nestjs/platform-express';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
-import helmet from 'helmet';
+import {default as helmet} from 'helmet';
 import {AppModule} from './app.module.js';
 import {ApiExceptionFilter} from './common/errors/api-exception.filter.js';
 import {resolveApiPort} from './common/runtime-config.js';
