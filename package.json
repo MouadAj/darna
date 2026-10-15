@@ -1,0 +1,38 @@
+{
+  "name": "housefamily",
+  "version": "0.1.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "node scripts/local-dev.mjs",
+    "dev:apps": "concurrently -n shared,api,web -c magenta,blue,green \"npm run dev -w @housefamily/shared\" \"npm run dev -w @housefamily/api\" \"node scripts/local-dev.mjs --web-after-api\"",
+    "build": "npm run build -w @housefamily/shared && npm run build -w @housefamily/api && npm run build -w @housefamily/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test -w @housefamily/api && npm run test -w @housefamily/web",
+    "db:generate": "npm run prisma:generate -w @housefamily/api",
+    "db:migrate": "npm run prisma:migrate -w @housefamily/api",
+    "db:seed": "npm run prisma:seed -w @housefamily/api",
+    "db:stop": "node scripts/local-dev.mjs --stop-db"
+  },
+  "devDependencies": {
+    "@nestjs/common": "12.1.2",
+    "@nestjs/core": "12.1.2",
+    "concurrently": "^9.2.1"
+  },
+  "overrides": {
+    "@nestjs/config": {
+      "@nestjs/common": "12.1.2"
+    },
+    "@nestjs/throttler": {
+      "@nestjs/common": "12.1.2",
+      "@nestjs/core": "12.1.2"
+    }
+  },
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  }
+}

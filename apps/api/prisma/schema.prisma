@@ -1,0 +1,288 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum HouseholdRole {
+  OWNER
+  MEMBER
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+  REVOKED
+}
+
+enum ItemStatus {
+  AVAILABLE
+  LOW
+  NEEDED
+}
+
+enum Priority {
+  NORMAL
+  SOON
+  URGENT
+}
+
+enum TripStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum IssueStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+}
+
+enum NotificationStatus {
+  UNREAD
+  READ
+}
+
+enum AuthTokenType {
+  EMAIL_VERIFICATION
+}
+
+enum AppLocale {
+  EN
+  FR
+  AR
+}
+
+model User {
+  id                String             @id @default(uuid()) @db.Uuid
+  name              String             @db.VarChar(100)
+  email             String             @unique @db.VarChar(255)
+  memberships       HouseholdMember[]
+  ownedHouseholds   Household[]        @relation("HouseholdOwner")
+  sessions          Session[]
+  passwordHash      String?            @db.VarChar(255)
+  emailVerifiedAt   DateTime?
+  preferredLocale   AppLocale          @default(EN)
+  authTokens        AuthToken[]
+  invitationsAccepted Invitation[]     @relation("InvitationAcceptor")
+  itemsCreated      Item[]             @relation("ItemCreator")
+  itemsUpdated      Item[]             @relation("ItemUpdater")
+  trips             ShoppingTrip[]     @relation("TripShopper")
+  purchases         ShoppingTripItem[] @relation("PurchaseActor")
+  issuesCreated     HomeIssue[]        @relation("IssueCreator")
+  issuesHandled     HomeIssue[]        @relation("IssueHandler")
+  activities        Activity[]         @relation("ActivityActor")
+  notifications     Notification[]
+  pushSubscriptions PushSubscription[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+}
+
+model Household {
+  id            String             @id @default(uuid()) @db.Uuid
+  name          String             @db.VarChar(120)
+  ownerId       String             @db.Uuid
+  owner         User               @relation("HouseholdOwner", fields: [ownerId], references: [id], onDelete: Restrict)
+  members       HouseholdMember[]
+  invitations   Invitation[]
+  categories    Category[]
+  items         Item[]
+  trips         ShoppingTrip[]
+  issues        HomeIssue[]
+  activities    Activity[]
+  notifications Notification[]
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  @@index([ownerId])
+}
+
+model HouseholdMember {
+  id          String        @id @default(uuid()) @db.Uuid
+  householdId String        @db.Uuid
+  userId      String        @unique @db.Uuid
+  role        HouseholdRole @default(MEMBER)
+  household   Household     @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  joinedAt    DateTime      @default(now())
+
+  @@unique([householdId, userId])
+  @@index([householdId, role])
+}
+
+model Invitation {
+  id           String           @id @default(uuid()) @db.Uuid
+  householdId  String           @db.Uuid
+  invitedName  String           @db.VarChar(100)
+  invitedEmail String           @db.VarChar(255)
+  tokenHash    String           @unique @db.VarChar(64)
+  status       InvitationStatus @default(PENDING)
+  expiresAt    DateTime
+  acceptedAt   DateTime?
+  acceptedById String?          @db.Uuid
+  household    Household        @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  acceptedBy   User?            @relation("InvitationAcceptor", fields: [acceptedById], references: [id])
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  @@index([householdId, status])
+  @@index([invitedEmail, status])
+}
+
+model Session {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  tokenHash String   @unique @db.VarChar(64)
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@index([userId, expiresAt])
+}
+
+model AuthToken {
+  id        String    @id @default(uuid()) @db.Uuid
+  userId    String    @db.Uuid
+  type      AuthTokenType
+  tokenHash String    @unique @db.VarChar(64)
+  expiresAt DateTime
+  usedAt    DateTime?
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+
+  @@index([userId, type, expiresAt])
+}
+
+model Category {
+  id          String    @id @default(uuid()) @db.Uuid
+  householdId String    @db.Uuid
+  key         String    @db.VarChar(40)
+  name        String    @db.VarChar(80)
+  sortOrder   Int       @default(0)
+  household   Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  items       Item[]
+  createdAt   DateTime  @default(now())
+
+  @@unique([householdId, key])
+  @@index([householdId, sortOrder])
+}
+
+model Item {
+  id          String     @id @default(uuid()) @db.Uuid
+  householdId String     @db.Uuid
+  createdById String     @db.Uuid
+  updatedById String     @db.Uuid
+  categoryId  String?    @db.Uuid
+  name        String     @db.VarChar(120)
+  visualKey   String     @db.VarChar(60)
+  status      ItemStatus @default(AVAILABLE)
+  priority    Priority   @default(NORMAL)
+  usual       Boolean    @default(false)
+  household   Household  @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  createdBy   User       @relation("ItemCreator", fields: [createdById], references: [id])
+  updatedBy   User       @relation("ItemUpdater", fields: [updatedById], references: [id])
+  category    Category?  @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  tripItems   ShoppingTripItem[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([householdId, status])
+  @@index([householdId, usual])
+  @@index([householdId, categoryId])
+}
+
+model ShoppingTrip {
+  id          String             @id @default(uuid()) @db.Uuid
+  householdId String             @db.Uuid
+  shopperId   String             @db.Uuid
+  status      TripStatus         @default(ACTIVE)
+  completedAt DateTime?
+  household   Household          @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  shopper     User               @relation("TripShopper", fields: [shopperId], references: [id])
+  items       ShoppingTripItem[]
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  @@index([householdId, status])
+}
+
+model ShoppingTripItem {
+  id            String       @id @default(uuid()) @db.Uuid
+  shoppingTripId String      @db.Uuid
+  itemId        String       @db.Uuid
+  purchased     Boolean      @default(false)
+  purchasedById String?      @db.Uuid
+  purchasedAt   DateTime?
+  shoppingTrip  ShoppingTrip @relation(fields: [shoppingTripId], references: [id], onDelete: Cascade)
+  item          Item         @relation(fields: [itemId], references: [id], onDelete: Restrict)
+  purchasedBy   User?        @relation("PurchaseActor", fields: [purchasedById], references: [id])
+
+  @@unique([shoppingTripId, itemId])
+  @@index([shoppingTripId, purchased])
+}
+
+model HomeIssue {
+  id          String      @id @default(uuid()) @db.Uuid
+  householdId String      @db.Uuid
+  createdById String      @db.Uuid
+  handledById String?     @db.Uuid
+  title       String      @db.VarChar(160)
+  visualKey   String      @default("repair") @db.VarChar(60)
+  status      IssueStatus @default(OPEN)
+  resolvedAt  DateTime?
+  household   Household   @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  createdBy   User        @relation("IssueCreator", fields: [createdById], references: [id])
+  handledBy   User?       @relation("IssueHandler", fields: [handledById], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([householdId, status])
+}
+
+model Activity {
+  id          String    @id @default(uuid()) @db.Uuid
+  householdId String    @db.Uuid
+  actorId     String?   @db.Uuid
+  type        String    @db.VarChar(60)
+  subjectName String?   @db.VarChar(160)
+  metadata    Json?
+  household   Household @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  actor       User?     @relation("ActivityActor", fields: [actorId], references: [id], onDelete: SetNull)
+  createdAt   DateTime  @default(now())
+
+  @@index([householdId, createdAt(sort: Desc)])
+}
+
+model Notification {
+  id          String             @id @default(uuid()) @db.Uuid
+  householdId String             @db.Uuid
+  userId      String             @db.Uuid
+  title       String             @db.VarChar(120)
+  body        String             @db.VarChar(300)
+  status      NotificationStatus @default(UNREAD)
+  kind        String             @db.VarChar(60)
+  household   Household          @relation(fields: [householdId], references: [id], onDelete: Cascade)
+  user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime           @default(now())
+
+  @@index([householdId, userId, status])
+}
+
+model PushSubscription {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  endpoint  String   @unique @db.Text
+  p256dh    String   @db.Text
+  auth      String   @db.Text
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
