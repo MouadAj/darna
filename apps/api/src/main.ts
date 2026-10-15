@@ -34,8 +34,8 @@ async function bootstrap() {
   app.useGlobalFilters(new ApiExceptionFilter());
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('HouseFamily API')
-    .setDescription('Private, household-scoped API for HouseFamily')
+    .setTitle('Darna API')
+    .setDescription('Private, household-scoped API for Darna')
     .setVersion('0.1.0')
     .addCookieAuth(config.get<string>('SESSION_COOKIE_NAME', 'housefamily_session'))
     .build();
@@ -43,7 +43,7 @@ async function bootstrap() {
 
   const port = resolveApiPort({PORT: config.get<string>('PORT'), API_PORT: config.get<string>('API_PORT')});
   await app.listen(port, '0.0.0.0');
-  console.info(`HouseFamily API running at http://localhost:${port}/api`);
+  console.info(`Darna API running at http://localhost:${port}/api`);
 }
 
 void bootstrap();

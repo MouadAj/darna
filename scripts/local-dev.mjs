@@ -62,7 +62,7 @@ function portHasPostgres() {
 
 function initializeDatabase() {
   if (existsSync(join(dataDirectory, 'PG_VERSION'))) return;
-  console.log('Preparing the HouseFamily database for the first time…');
+  console.log('Preparing the Darna database for the first time…');
   const temporaryDirectory = mkdtempSync(join(tmpdir(), 'housefamily-postgres-'));
   const passwordFile = join(temporaryDirectory, 'password');
   try {
@@ -78,7 +78,7 @@ function initializeDatabase() {
     ]);
     appendFileSync(
       join(dataDirectory, 'postgresql.conf'),
-      `\n# HouseFamily local development\nlisten_addresses = '127.0.0.1'\nport = ${databasePort}\n`,
+      `\n# Darna local development\nlisten_addresses = '127.0.0.1'\nport = ${databasePort}\n`,
     );
   } finally {
     rmSync(temporaryDirectory, {recursive: true, force: true});
@@ -91,7 +91,7 @@ function startDatabase() {
   if (portHasPostgres()) {
     throw new Error(`Port ${databasePort} is already used by another PostgreSQL server. Stop it, then run npm run dev again.`);
   }
-  console.log(`Starting HouseFamily PostgreSQL on port ${databasePort}…`);
+  console.log(`Starting Darna PostgreSQL on port ${databasePort}…`);
   run(binary('pg_ctl'), ['start', '-D', dataDirectory, '-l', logFile, '-o', `-k ${dataDirectory}`, '-w']);
   return true;
 }
@@ -115,7 +115,7 @@ function databaseHasUsers() {
 
 function stopDatabase() {
   if (!databaseServerIsRunning()) {
-    console.log('HouseFamily PostgreSQL is already stopped.');
+    console.log('Darna PostgreSQL is already stopped.');
     return;
   }
   run(binary('pg_ctl'), ['stop', '-D', dataDirectory, '-m', 'fast', '-w']);
@@ -190,6 +190,6 @@ try {
   process.exit(exitCode);
 } catch (error) {
   if (startedDatabase) stopDatabase();
-  console.error(`\nHouseFamily could not start: ${error instanceof Error ? error.message : String(error)}`);
+  console.error(`\nDarna could not start: ${error instanceof Error ? error.message : String(error)}`);
   process.exit(1);
 }

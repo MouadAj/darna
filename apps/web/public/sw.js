@@ -1,4 +1,4 @@
-const SHELL_CACHE = 'housefamily-shell-v2';
+const SHELL_CACHE = 'darna-shell-v3';
 const OFFLINE_URL = '/offline.html';
 const BRAND_URL = '/brand/housefamily-mark.png';
 
@@ -26,7 +26,7 @@ self.addEventListener('fetch', (event) => {
 });
 
 self.addEventListener('push', (event) => {
-  const message = event.data?.json() ?? {title: 'HouseFamily', body: 'There is an update in your family home.'};
+  const message = event.data?.json() ?? {title: 'Darna', body: 'There is an update in your family home.'};
   event.waitUntil(self.registration.showNotification(message.title, {body: message.body, icon: '/brand/icon-192.png', data: {url: message.url ?? '/en/activity'}}));
 });
 

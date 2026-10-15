@@ -2,7 +2,7 @@
 
 Deployment instructions for the free hosting setup are in [docs/deployment.md](docs/deployment.md).
 
-HouseFamily is a mobile-first, installable family-home app for household essentials, shopping, small home issues, family invitations, and a shared activity history. It is designed around fast, recognizable actions and large, labeled controls.
+Darna is a mobile-first, installable family-home app for household essentials, shopping, small home issues, family invitations, and a shared activity history. It is designed around fast, recognizable actions and large, labeled controls.
 
 ## Architecture
 

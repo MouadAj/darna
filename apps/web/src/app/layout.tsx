@@ -5,9 +5,9 @@ import './globals.css';
 const dmSans = DM_Sans({subsets: ['latin', 'latin-ext'], variable: '--font-latin', display: 'swap'});
 const notoArabic = Noto_Sans_Arabic({subsets: ['arabic'], variable: '--font-arabic', display: 'swap', preload: false});
 export const metadata: Metadata = {
-  title: {default: 'HouseFamily', template: '%s · HouseFamily'},
+  title: {default: 'Darna', template: '%s · Darna'},
   description: 'One calm, private place for everything your home needs.',
-  applicationName: 'HouseFamily',
+  applicationName: 'Darna',
   manifest: '/manifest.webmanifest',
   icons: {
     icon: [
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     ],
     apple: {url: '/brand/icon-180.png', sizes: '180x180', type: 'image/png'},
   },
-  appleWebApp: {capable: true, statusBarStyle: 'default', title: 'HouseFamily'},
+  appleWebApp: {capable: true, statusBarStyle: 'default', title: 'Darna'},
   formatDetection: {telephone: false},
 };
 export const viewport: Viewport = {themeColor: '#F8F7F4', width: 'device-width', initialScale: 1, viewportFit: 'cover'};

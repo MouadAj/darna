@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "HouseFamily",
+    "appName": "Darna",
     "back": "رجوع",
     "close": "إغلاق",
     "cancel": "إلغاء",
@@ -61,7 +61,7 @@
     "registerIntro": "أنشئ حسابك، ثم سمِّ بيتك وادعُ عائلتك.",
     "loginEyebrow": "مرحبًا بعودتك",
     "loginTitle": "سجّل الدخول إلى بيتك",
-    "loginIntro": "استخدم البريد وكلمة المرور اللذين اخترتهما في HouseFamily.",
+    "loginIntro": "استخدم البريد وكلمة المرور اللذين اخترتهما في Darna.",
     "name": "اسمك",
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
@@ -73,7 +73,7 @@
     "createAccount": "إنشاء حساب",
     "login": "تسجيل الدخول",
     "haveAccount": "لديك حساب بالفعل؟",
-    "newHere": "جديد في HouseFamily؟",
+    "newHere": "جديد في Darna؟",
     "genericError": "حدث خطأ. حاول مجددًا.",
     "showPassword": "إظهار كلمة المرور",
     "hidePassword": "إخفاء كلمة المرور",
@@ -252,7 +252,7 @@
   },
   "notifications": {
     "title": "ابقَ على اطلاع",
-    "body": "يمكن لـ HouseFamily تنبيهك بلطف عند بدء التسوق أو إضافة شيء عاجل.",
+    "body": "يمكن لـ Darna تنبيهك بلطف عند بدء التسوق أو إضافة شيء عاجل.",
     "enable": "نبّهني عندما يكون الأمر مهمًا",
     "later": "لاحقًا",
     "explain": "سنطلب إذن المتصفح فقط بعد اختيارك.",

@@ -1,6 +1,6 @@
 # Typography and UX audit
 
-Date: 2026-10-15. Product: HouseFamily, hosted in the Darna repository.
+Date: 2026-10-15. Product: Darna.
 
 This is a review of the implementation and selected browser interactions. It is not a usability study with family members or an accessibility certification. Priorities below reflect the likely effect on completing everyday household tasks.
 
@@ -40,7 +40,6 @@ This is a review of the implementation and selected browser interactions. It is 
 | Priority | Recommendation | Reason / boundary |
 | --- | --- | --- |
 | P1 before production | Complete notification delivery, then gate the permission prompt and success message on real configuration/subscription success. | The current notification flow can say it is ready without a configured delivery path. This pass does not add VAPID configuration or a delivery worker. |
-| P2 | Decide whether the website should display Darna throughout. | Repository naming changed, but the interface, emails, manifest, and documentation still use HouseFamily. Rebranding was not included in this pass. |
 | P2 | Localize built-in catalog/category names while preserving user-entered household names. | French/Arabic screens still show English seeded item and category names. This requires a deliberate distinction between catalog translations and family-authored content. |
 | P2 | Test core tasks with family members of different ages: add a need, correct its status, shop, and join an invitation. | A code review cannot establish whether labels and interaction patterns match real users' expectations. Observe completion, hesitation, mistakes, and recovery. |
 | P2 | Review notification, validation, and authentication feedback with actual screen readers and mobile keyboards. | Native semantics and browser checks reduce common problems but do not replace assistive-technology testing. |
@@ -67,3 +66,7 @@ Validation: 13 API tests and 25 web tests passed; the web suite was rerun with `
 - Shopping waits for both the trip and required item data before showing an empty or ready state. Cached data stays visible after background request failures with retry feedback.
 - Browser favicons use transparent 16px, 32px, and 48px derivatives of the existing transparent logo source, with new URLs to avoid reusing the previous opaque icons.
 - The web suite now has 42 passing tests. Browser checks confirmed a single creation request, visible success feedback, dashboard navigation, slow dashboard/activity loading with navigation retained, and 390px mobile layouts including Arabic RTL without horizontal overflow. The temporary local test account and household were removed after verification. Lint, type checks, and the production web build passed.
+
+## Darna naming
+
+The interface, accessible logo labels, translated product copy, browser metadata, installed-app manifest, offline fallback, default notification title, and API documentation now display **Darna**. The service-worker shell cache version was updated to refresh the offline page. Internal workspace names, session cookies, database identifiers, demo credentials, and existing image URLs are retained for compatibility.

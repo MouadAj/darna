@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "HouseFamily",
+    "appName": "Darna",
     "back": "Back",
     "close": "Close",
     "cancel": "Cancel",
@@ -61,7 +61,7 @@
     "registerIntro": "Create your account, then name your home and invite your family.",
     "loginEyebrow": "Welcome back",
     "loginTitle": "Log in to your home",
-    "loginIntro": "Use the email and password you chose when joining HouseFamily.",
+    "loginIntro": "Use the email and password you chose when joining Darna.",
     "name": "Your name",
     "email": "Email address",
     "password": "Password",
@@ -73,7 +73,7 @@
     "createAccount": "Create account",
     "login": "Log in",
     "haveAccount": "Already have an account?",
-    "newHere": "New to HouseFamily?",
+    "newHere": "New to Darna?",
     "genericError": "Something went wrong. Please try again.",
     "showPassword": "Show password",
     "hidePassword": "Hide password",
@@ -252,7 +252,7 @@
   },
   "notifications": {
     "title": "Stay in the loop",
-    "body": "HouseFamily can gently tell you when someone starts shopping or an urgent item is added.",
+    "body": "Darna can gently tell you when someone starts shopping or an urgent item is added.",
     "enable": "Tell me when it matters",
     "later": "Maybe later",
     "explain": "We’ll ask your browser only after you choose to enable notifications.",

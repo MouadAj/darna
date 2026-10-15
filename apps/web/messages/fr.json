@@ -1,6 +1,6 @@
 {
   "common": {
-    "appName": "HouseFamily",
+    "appName": "Darna",
     "back": "Retour",
     "close": "Fermer",
     "cancel": "Annuler",
@@ -61,7 +61,7 @@
     "registerIntro": "Créez votre compte, puis nommez votre foyer et invitez votre famille.",
     "loginEyebrow": "Heureux de vous revoir",
     "loginTitle": "Connectez-vous à votre foyer",
-    "loginIntro": "Utilisez l’e-mail et le mot de passe choisis pour HouseFamily.",
+    "loginIntro": "Utilisez l’e-mail et le mot de passe choisis pour Darna.",
     "name": "Votre nom",
     "email": "Adresse e-mail",
     "password": "Mot de passe",
@@ -73,7 +73,7 @@
     "createAccount": "Créer un compte",
     "login": "Se connecter",
     "haveAccount": "Vous avez déjà un compte ?",
-    "newHere": "Nouveau sur HouseFamily ?",
+    "newHere": "Nouveau sur Darna ?",
     "genericError": "Une erreur est survenue. Réessayez.",
     "showPassword": "Afficher le mot de passe",
     "hidePassword": "Masquer le mot de passe",
@@ -252,7 +252,7 @@
   },
   "notifications": {
     "title": "Restez informé",
-    "body": "HouseFamily peut vous prévenir doucement des événements importants.",
+    "body": "Darna peut vous prévenir doucement des événements importants.",
     "enable": "Me prévenir quand c’est utile",
     "later": "Plus tard",
     "explain": "Le navigateur demandera l’autorisation uniquement après votre choix.",
