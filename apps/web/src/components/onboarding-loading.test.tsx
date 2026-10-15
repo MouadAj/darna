@@ -94,12 +94,12 @@ describe('page loading and refreshes',()=>{
     client.setQueryData(['me'],owner);client.setQueryData(['items'],[]);client.setQueryData(['issues'],[]);
     mocks.api.mockImplementation((path:string)=>path==='/items'?refresh.promise:Promise.resolve(path==='/auth/me'?owner:[]));
     renderWithProviders(<AppShell><HomePage/></AppShell>,client);
-    expect(await screen.findByText('Everything looks good 🎉')).toBeVisible();
+    expect(await screen.findByText('Everything looks good')).toBeVisible();
     await act(async()=>{void client.invalidateQueries({queryKey:['items']});});
-    expect(screen.getByText('Everything looks good 🎉')).toBeVisible();expect(await screen.findByText('Updating…')).toBeVisible();
+    expect(screen.getByText('Everything looks good')).toBeVisible();expect(await screen.findByText('Updating…')).toBeVisible();
     expect(screen.getAllByRole('navigation')).toHaveLength(2);
     await act(async()=>refresh.reject(new Error('offline')));
-    expect(await screen.findByRole('alert')).toHaveTextContent("couldn't load");expect(screen.getByText('Everything looks good 🎉')).toBeVisible();
+    expect(await screen.findByRole('alert')).toHaveTextContent("couldn't load");expect(screen.getByText('Everything looks good')).toBeVisible();
   });
 
   it('lets onboarding recover from a failed initial session check',async()=>{

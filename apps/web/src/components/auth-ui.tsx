@@ -13,7 +13,7 @@ export function AuthCard({eyebrow, title, intro, children}: {eyebrow: string; ti
 export function PasswordField({id, label, error, autoComplete, registration}: {id: string; label: string; error?: string; autoComplete: string; registration: React.InputHTMLAttributes<HTMLInputElement>}) {
   const t = useTranslations('auth');
   const [visible, setVisible] = useState(false);
-  return <div className="field"><label htmlFor={id}>{label}</label><div className="password-wrap"><input {...registration} className="input" id={id} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} type={visible ? 'text' : 'password'} autoComplete={autoComplete}/><button type="button" className="password-toggle" onClick={()=>setVisible(value=>!value)} aria-label={t(visible ? 'hidePassword' : 'showPassword')} aria-pressed={visible} aria-controls={id}>{visible?<EyeOff/>:<Eye/>}</button></div>{error&&<p id={`${id}-error`} className="field-error" role="alert">{error}</p>}</div>;
+  return <div className="field"><label htmlFor={id}>{label}</label><div className="password-wrap"><input {...registration} className="input" id={id} aria-invalid={Boolean(error)} aria-describedby={error ? `${id}-error` : undefined} type={visible ? 'text' : 'password'} autoComplete={autoComplete}/><button type="button" className="password-toggle" onClick={()=>setVisible(value=>!value)} aria-label={t(visible ? 'hidePassword' : 'showPassword')} aria-pressed={visible} aria-controls={id}>{visible?<EyeOff aria-hidden="true"/>:<Eye aria-hidden="true"/>}</button></div>{error&&<p id={`${id}-error`} className="field-error" role="alert">{error}</p>}</div>;
 }
 
 export function AuthSwitch({text, href, label}: {text: string; href: string; label: string}) {

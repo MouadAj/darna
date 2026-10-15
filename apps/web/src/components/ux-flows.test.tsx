@@ -47,6 +47,18 @@ describe('household UX recovery',()=>{
     expect(await screen.findByRole('link',{name:'1 thing we need'})).toHaveAttribute('href','/en/needs?status=NEEDED');
     expect(screen.getByRole('link',{name:'1 almost finished'})).toHaveAttribute('href','/en/needs?status=LOW');
   });
+
+  it('announces usual-item status and opens the matching status selector',async()=>{
+    mocks.api.mockImplementation((path:string)=>Promise.resolve(path==='/items'?entries.map(entry=>({...entry,usual:true})):path==='/auth/me'?me:[]));
+    renderWithProviders(<HomePage/>);
+    expect(await screen.findByRole('button',{name:'Milk, We have it'})).toBeVisible();
+    expect(screen.getByRole('button',{name:'Water, Almost finished'})).toBeVisible();
+    const needed=screen.getByRole('button',{name:'Eggs, We need it'});
+    expect(needed.querySelector('.usual-status')).toHaveAttribute('aria-hidden','true');
+    fireEvent.click(needed);
+    const dialog=screen.getByRole('dialog',{name:'Eggs'});
+    expect(within(dialog).getByRole('button',{name:'We need it'})).toHaveAttribute('aria-pressed','true');
+  });
 });
 
 describe('Needs filters and shopping',()=>{

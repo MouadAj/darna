@@ -46,5 +46,5 @@ export function NotificationsPrompt() {
       setPending(false);
     }
   };
-  return <section className="notification-prompt"><div className="notification-prompt-icon"><BellRing/></div><div><h2>{t('title')}</h2><p>{t('body')}</p><small>{t('explain')}</small><div className="notification-actions"><button className="button" disabled={pending} onClick={enable}><Bell/>{pending ? '…' : t('enable')}</button><button className="text-button" onClick={dismiss}><X/>{t('later')}</button></div></div></section>;
+  return <section className="notification-prompt"><div className="notification-prompt-icon"><BellRing aria-hidden="true"/></div><div><h2>{t('title')}</h2><p>{t('body')}</p><small>{t('explain')}</small><div className="notification-actions"><button className="button" disabled={pending} onClick={enable}><Bell aria-hidden="true"/>{pending ? '…' : t('enable')}</button><button className="text-button" onClick={dismiss}><X aria-hidden="true"/>{t('later')}</button></div></div></section>;
 }

@@ -35,7 +35,7 @@ export default function InvitationPage() {
     {preview.isLoading?<LoadingState rows={3}/>:preview.isError?<ErrorState message={t('invalid')}/>:<>
       <BrandLogo className="onboarding-brand"/><p className="eyebrow">{t('hello',{name:preview.data!.invitedName})}</p><h1>{t('title',{household:preview.data!.householdName})}</h1><p className="intro">{t('body')}</p>
       <form method="post" onSubmit={submit}><PasswordField id="invite-password" label={t('password')} autoComplete="new-password" registration={register('password')} error={errors.password?auth('passwordError'):undefined}/><PasswordField id="invite-confirm-password" label={t('confirmPassword')} autoComplete="new-password" registration={register('confirmPassword')} error={errors.confirmPassword?auth('passwordMismatch'):undefined}/>{errors.root&&<p className="field-error" role="alert">{errors.root.message}</p>}<button type="submit" className="button full" disabled={accept.isPending}><PendingLabel pending={accept.isPending}>{accept.isPending?t('joining'):t('accept')}</PendingLabel></button></form>
-      <p className="privacy-note"><LockKeyhole/>{t('secure')}</p>
+      <p className="privacy-note"><LockKeyhole aria-hidden="true"/>{t('secure')}</p>
     </>}
   </section></main>;
 }

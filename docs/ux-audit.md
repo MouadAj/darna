@@ -70,3 +70,10 @@ Validation: 13 API tests and 25 web tests passed; the web suite was rerun with `
 ## Darna naming
 
 The interface, accessible logo labels, translated product copy, browser metadata, installed-app manifest, offline fallback, default notification title, and API documentation now display **Darna**. The service-worker shell cache version was updated to refresh the offline page. Internal workspace names, session cookies, database identifiers, demo credentials, and existing image URLs are retained for compatibility.
+
+## Icon and visual consistency
+
+- Dashboard emojis are replaced by Lucide outline icons: a muted-gold star for usual items, an alert for needed items, and a time-appropriate greeting icon. Healthy empty states use a check icon and translated text without emoji.
+- Item status symbols share one mapping across cards, badges, selectors, and activity. Usual-item buttons include the translated status in their accessible name. Priority badges use a clock or flag alongside text; issue statuses have matching symbols. Decorative icons are hidden from assistive technology.
+- Shared icon sizes and stroke weight, tinted icon containers, solid empty-state borders, and consistent hover/pressed/focus styling refine the existing palette and layouts. Hover feedback is restricted to devices with a fine pointer; reduced-motion styles remain in effect. Mobile summary cards give longer translations room to wrap within equal-width columns.
+- All 43 web tests pass, including a new regression for usual-item status names and selection. Browser checks used isolated local sample data, without modifying household data: Home, Needs, Shopping, Family, Activity, and Issues at 390, 768, and 1440 CSS pixels in English, French, and Arabic had no document or inspected card/row horizontal overflow. Empty, delayed, failed, and recovered requests and status-sheet focus/selection were checked separately.

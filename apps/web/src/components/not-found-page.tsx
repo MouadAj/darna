@@ -18,7 +18,7 @@ export function NotFoundPage({messages}: {messages: Record<'en' | 'fr' | 'ar', C
       <div className="not-found-art" aria-hidden="true" dir="ltr">
         <div className="not-found-orbit"/>
         <span className="not-found-number">404</span>
-        <span className="not-found-house"><House/></span>
+        <span className="not-found-house"><House aria-hidden="true"/></span>
         <span className="not-found-dot not-found-dot--one"/>
         <span className="not-found-dot not-found-dot--two"/>
       </div>

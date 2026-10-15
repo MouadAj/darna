@@ -1,11 +1,12 @@
 'use client';
-import {AlertCircle, CheckCircle2, ChevronLeft, Circle, Clock3, X} from 'lucide-react';
+import {AlertCircle, ChevronLeft, Clock3, Flag, X} from 'lucide-react';
 import Link from 'next/link';
 import {useTranslations} from 'next-intl';
 import {useId} from 'react';
 import {Modal} from './modal';
 import {PendingLabel} from './loading';
-import type {ItemStatus, Priority} from '@housefamily/shared';
+import {issueStatusIcons, StatusIcon} from './status-icon';
+import type {IssueStatus, ItemStatus, Priority} from '@housefamily/shared';
 
 export function PageHeader({title, subtitle, backHref, action}: {title: string; subtitle?: string; backHref?: string; action?: React.ReactNode}) {
   const t = useTranslations('common');
@@ -14,25 +15,31 @@ export function PageHeader({title, subtitle, backHref, action}: {title: string; 
 
 export function StatusBadge({status}: {status: ItemStatus}) {
   const t = useTranslations('status');
-  const Icon = status === 'AVAILABLE' ? CheckCircle2 : status === 'LOW' ? Clock3 : AlertCircle;
-  return <span className={`status-badge status-${status.toLowerCase()}`}><Icon aria-hidden="true"/>{t(status)}</span>;
+  return <span className={`status-badge status-${status.toLowerCase()}`}><StatusIcon status={status}/>{t(status)}</span>;
+}
+
+export function IssueStatusBadge({status}: {status: IssueStatus}) {
+  const t = useTranslations('issues');
+  const Icon = issueStatusIcons[status];
+  return <span className={`status-badge issue-${status.toLowerCase()}`}><Icon aria-hidden="true"/>{t(status)}</span>;
 }
 
 export function PriorityBadge({priority}: {priority: Priority}) {
   const t = useTranslations('priority');
   if (priority === 'NORMAL') return null;
-  return <span className={`priority-badge priority-${priority.toLowerCase()}`}><Circle fill="currentColor" aria-hidden="true"/>{t(priority)}</span>;
+  const Icon = priority === 'URGENT' ? Flag : Clock3;
+  return <span className={`priority-badge priority-${priority.toLowerCase()}`}><Icon aria-hidden="true"/>{t(priority)}</span>;
 }
 
 export function EmptyState({icon, title, body, action}: {icon?: React.ReactNode; title: string; body: string; action?: React.ReactNode}) {
-  return <div className="empty-state">{icon && <div className="empty-icon">{icon}</div>}<h2>{title}</h2><p>{body}</p>{action}</div>;
+  return <div className="empty-state">{icon && <div className="empty-icon" aria-hidden="true">{icon}</div>}<h2>{title}</h2><p>{body}</p>{action}</div>;
 }
 
 export {LoadingState} from './loading';
 
 export function ErrorState({message, retry}: {message: string; retry?: () => void}) {
   const t = useTranslations('common');
-  return <div className="empty-state error-state"><AlertCircle/><h2>{t('somethingWrong')}</h2><p>{message}</p>{retry && <button className="button secondary" onClick={retry}>{t('tryAgain')}</button>}</div>;
+  return <div className="empty-state error-state"><AlertCircle aria-hidden="true"/><h2>{t('somethingWrong')}</h2><p>{message}</p>{retry && <button className="button secondary" onClick={retry}>{t('tryAgain')}</button>}</div>;
 }
 
 export function ActionError({retry, pending = false, message}: {retry?: () => void; pending?: boolean; message?: string}) {
