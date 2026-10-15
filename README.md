@@ -20,7 +20,7 @@ The web app never chooses a household scope for protected operations. The API re
 
 ## Prerequisites
 
-- Node.js 22.22.3+ LTS or 24.15+ LTS (use an even-numbered LTS release)
+- Node.js 24.15+ LTS
 - npm 11 or newer
 - PostgreSQL 16+ client/server tools; `npm run dev` manages a private local instance automatically
 

@@ -1,6 +1,6 @@
 # Deploy Darna on free plans
 
-Use two Vercel **Hobby** projects, Neon **Free** PostgreSQL, and EmailJS **Free**. The repository is https://github.com/MouadAj/darna. The web project is deployed at https://darna-ochre-eight.vercel.app; the API is a separate NestJS project. No paid plan or custom domain is required.
+Use two Vercel **Hobby** projects, Neon **Free** PostgreSQL, and EmailJS **Free**. The repository is https://github.com/MouadAj/darna. The web project is deployed at https://darna-ochre-eight.vercel.app; the API is deployed at https://darna-api-three.vercel.app. No paid plan or custom domain is required.
 
 This is a fresh online installation. Do not import the local database or run `db:seed` online. Local development data stays in `.postgres-data/`.
 
@@ -38,8 +38,8 @@ Import `MouadAj/darna` into a personal Hobby project named `darna-api` (or an av
 | `DEV_AUTH_ENABLED` | `false` |
 | `NODE_ENV` | `production` |
 | `EMAIL_FROM_NAME` | `Darna` |
-| `EMAILJS_SERVICE_ID` | Connected EmailJS service |
-| `EMAILJS_TEMPLATE_ID` | Confirmation/invitation template |
+| `EMAILJS_SERVICE_ID` | `service_darna` |
+| `EMAILJS_TEMPLATE_ID` | `template_darna` |
 | `EMAILJS_PUBLIC_KEY` | EmailJS public key, kept server-side |
 | `EMAILJS_PRIVATE_KEY` | EmailJS private key |
 
@@ -53,11 +53,13 @@ Set these variables and **redeploy** the web project:
 
 | Variable | Value |
 | --- | --- |
-| `API_INTERNAL_URL` | The canonical API project origin, without `/api` or a trailing slash |
+| `API_INTERNAL_URL` | `https://darna-api-three.vercel.app` |
 | `NEXT_PUBLIC_API_URL` | `/api` |
 | `NEXT_PUBLIC_PUSH_ENABLED` | `false` |
 
 Leave `NEXT_PUBLIC_VAPID_PUBLIC_KEY` unset until push delivery is configured. Never put Neon or EmailJS credentials in the web project. The browser calls the same-origin `/api` proxy so secure HTTP-only session cookies remain on the website origin. Keep the API's production health endpoint publicly reachable by that proxy; preview deployments may remain protected.
+
+Request protection uses ESM-compatible Express middleware: 120 API requests per minute per IP, with separate limits of 5 registrations, 3 verification resends, and 8 logins per minute. Counters live in each warm function instance; they are not a distributed abuse-prevention service. Vercel’s immediate proxy is trusted for client IPs.
 
 ## 5. Verify before sharing
 

@@ -8,6 +8,7 @@ import {default as helmet} from 'helmet';
 import {AppModule} from './app.module.js';
 import {ApiExceptionFilter} from './common/errors/api-exception.filter.js';
 import {resolveApiPort} from './common/runtime-config.js';
+import {installRateLimits} from './common/rate-limits.js';
 
 async function bootstrap() {
   // Select the Express adapter explicitly for consistent local and hosted startup.
@@ -23,6 +24,7 @@ async function bootstrap() {
   if (typeof helmetFactory !== 'function') throw new TypeError('Helmet middleware factory is unavailable');
   app.use(helmetFactory({contentSecurityPolicy: false}));
   app.use(cookieParser());
+  installRateLimits(app.getHttpAdapter().getInstance(), process.env.VERCEL === '1');
   app.enableCors({
     origin: config.getOrThrow<string>('WEB_ORIGIN').split(',').map((origin) => origin.trim()),
     credentials: true,

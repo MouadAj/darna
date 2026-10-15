@@ -1,5 +1,4 @@
 import {Body, Controller, Get, HttpCode, Post, Req, Res} from '@nestjs/common';
-import {Throttle} from '@nestjs/throttler';
 import {ApiTags} from '@nestjs/swagger';
 import type {Request, Response} from 'express';
 import {CurrentUser, type AuthContext} from '../common/auth/auth-user.js';
@@ -13,10 +12,10 @@ import {SessionService} from './session.service.js';
 export class AuthController {
   constructor(private readonly auth: AuthService, private readonly sessions: SessionService) {}
 
-  @Public() @Post('register') @HttpCode(202) @Throttle({default: {limit: 5, ttl: 60_000}})
+  @Public() @Post('register') @HttpCode(202)
   register(@Body() dto: RegisterDto) { return this.auth.register(dto.name, dto.email, dto.password, dto.locale); }
 
-  @Public() @Post('resend-verification') @HttpCode(202) @Throttle({default: {limit: 3, ttl: 60_000}})
+  @Public() @Post('resend-verification') @HttpCode(202)
   resend(@Body() dto: ResendVerificationDto) { return this.auth.resendVerification(dto.email, dto.locale); }
 
   @Public() @Post('verify-email') @HttpCode(200)
@@ -26,7 +25,7 @@ export class AuthController {
     return {message: 'Email confirmed and signed in', preferredLocale: result.preferredLocale};
   }
 
-  @Public() @Post('login') @HttpCode(200) @Throttle({default: {limit: 8, ttl: 60_000}})
+  @Public() @Post('login') @HttpCode(200)
   async login(@Body() dto: LoginDto, @Res({passthrough: true}) response: Response) {
     const result = await this.auth.login(dto.email, dto.password);
     await this.sessions.create(result.userId, response);

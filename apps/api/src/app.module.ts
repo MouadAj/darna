@@ -1,7 +1,6 @@
 import {Module} from '@nestjs/common';
 import {APP_GUARD} from '@nestjs/core';
 import {ConfigModule} from '@nestjs/config';
-import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
 import {AuthModule} from './auth/auth.module.js';
 import {SessionGuard} from './common/auth/session.guard.js';
 import {PrismaModule} from './prisma/prisma.module.js';
@@ -18,7 +17,6 @@ import {UsersModule} from './users/users.module.js';
 @Module({
   imports: [
     ConfigModule.forRoot({isGlobal: true, envFilePath: ['../../.env', '.env']}),
-    ThrottlerModule.forRoot([{ttl: 60_000, limit: 120}]),
     PrismaModule,
     AuthModule,
     HealthModule,
@@ -32,7 +30,6 @@ import {UsersModule} from './users/users.module.js';
     UsersModule,
   ],
   providers: [
-    {provide: APP_GUARD, useClass: ThrottlerGuard},
     {provide: APP_GUARD, useClass: SessionGuard},
   ],
 })
