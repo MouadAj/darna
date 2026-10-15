@@ -4,6 +4,7 @@ import Link from 'next/link';
 import {useTranslations} from 'next-intl';
 import {useId} from 'react';
 import {Modal} from './modal';
+import {PendingLabel} from './loading';
 import type {ItemStatus, Priority} from '@housefamily/shared';
 
 export function PageHeader({title, subtitle, backHref, action}: {title: string; subtitle?: string; backHref?: string; action?: React.ReactNode}) {
@@ -27,7 +28,7 @@ export function EmptyState({icon, title, body, action}: {icon?: React.ReactNode;
   return <div className="empty-state">{icon && <div className="empty-icon">{icon}</div>}<h2>{title}</h2><p>{body}</p>{action}</div>;
 }
 
-export function LoadingState({rows = 4}: {rows?: number}) { const t = useTranslations('common'); return <div className="skeleton-stack" role="status" aria-label={t('loading')}>{Array.from({length: rows}).map((_, index) => <div className="skeleton-row" key={index}><span/><div><b/><i/></div></div>)}</div>; }
+export {LoadingState} from './loading';
 
 export function ErrorState({message, retry}: {message: string; retry?: () => void}) {
   const t = useTranslations('common');
@@ -36,7 +37,7 @@ export function ErrorState({message, retry}: {message: string; retry?: () => voi
 
 export function ActionError({retry, pending = false, message}: {retry?: () => void; pending?: boolean; message?: string}) {
   const t = useTranslations('common');
-  return <div className="action-error" role="alert"><p>{message ?? t('actionFailed')}</p>{retry && <button type="button" className="text-button" disabled={pending} onClick={retry}>{pending ? t('working') : t('tryAgain')}</button>}</div>;
+  return <div className="action-error" role="alert"><p>{message ?? t('actionFailed')}</p>{retry && <button type="button" className="text-button" disabled={pending} onClick={retry}><PendingLabel pending={pending}>{pending ? t('working') : t('tryAgain')}</PendingLabel></button>}</div>;
 }
 
 export function Sheet({open, onClose, title, pending, children}: {open: boolean; onClose: () => void; title: string; pending?: boolean; children: React.ReactNode}) {
@@ -49,5 +50,5 @@ export function ConfirmDialog({open, title, body, confirmLabel, onConfirm, onClo
   const t = useTranslations('common');
   const titleId = useId();
   const bodyId = useId();
-  return <Modal open={open} onClose={onClose} pending={pending} className="dialog-layer" labelledBy={titleId} describedBy={bodyId} alert><section className="confirm-dialog"><h2 id={titleId}>{title}</h2><p id={bodyId}>{body}</p>{children}<div className="dialog-actions"><button type="button" className="button secondary" disabled={pending} data-dialog-autofocus onClick={onClose}>{t('cancel')}</button><button type="button" className="button danger" disabled={pending} onClick={onConfirm}>{pending ? t('working') : confirmLabel}</button></div></section></Modal>;
+  return <Modal open={open} onClose={onClose} pending={pending} className="dialog-layer" labelledBy={titleId} describedBy={bodyId} alert><section className="confirm-dialog"><h2 id={titleId}>{title}</h2><p id={bodyId}>{body}</p>{children}<div className="dialog-actions"><button type="button" className="button secondary" disabled={pending} data-dialog-autofocus onClick={onClose}>{t('cancel')}</button><button type="button" className="button danger" disabled={pending} onClick={onConfirm}><PendingLabel pending={Boolean(pending)}>{pending ? t('working') : confirmLabel}</PendingLabel></button></div></section></Modal>;
 }

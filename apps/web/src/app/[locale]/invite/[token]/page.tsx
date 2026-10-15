@@ -10,6 +10,7 @@ import {z} from 'zod';
 import {PasswordField} from '@/components/auth-ui';
 import {ErrorState, LoadingState} from '@/components/ui';
 import {api} from '@/lib/api';
+import {PendingLabel} from '@/components/loading';
 import type {Locale} from '@housefamily/shared';
 
 const schema = z.object({password: z.string().min(8).max(128), confirmPassword: z.string()})
@@ -33,7 +34,7 @@ export default function InvitationPage() {
   return <main className="onboarding-page"><section className="onboarding-card">
     {preview.isLoading?<LoadingState rows={3}/>:preview.isError?<ErrorState message={t('invalid')}/>:<>
       <BrandLogo className="onboarding-brand"/><p className="eyebrow">{t('hello',{name:preview.data!.invitedName})}</p><h1>{t('title',{household:preview.data!.householdName})}</h1><p className="intro">{t('body')}</p>
-      <form method="post" onSubmit={submit}><PasswordField id="invite-password" label={t('password')} autoComplete="new-password" registration={register('password')} error={errors.password?auth('passwordError'):undefined}/><PasswordField id="invite-confirm-password" label={t('confirmPassword')} autoComplete="new-password" registration={register('confirmPassword')} error={errors.confirmPassword?auth('passwordMismatch'):undefined}/>{errors.root&&<p className="field-error" role="alert">{errors.root.message}</p>}<button type="submit" className="button full" disabled={accept.isPending}>{accept.isPending?t('joining'):t('accept')}</button></form>
+      <form method="post" onSubmit={submit}><PasswordField id="invite-password" label={t('password')} autoComplete="new-password" registration={register('password')} error={errors.password?auth('passwordError'):undefined}/><PasswordField id="invite-confirm-password" label={t('confirmPassword')} autoComplete="new-password" registration={register('confirmPassword')} error={errors.confirmPassword?auth('passwordMismatch'):undefined}/>{errors.root&&<p className="field-error" role="alert">{errors.root.message}</p>}<button type="submit" className="button full" disabled={accept.isPending}><PendingLabel pending={accept.isPending}>{accept.isPending?t('joining'):t('accept')}</PendingLabel></button></form>
       <p className="privacy-note"><LockKeyhole/>{t('secure')}</p>
     </>}
   </section></main>;

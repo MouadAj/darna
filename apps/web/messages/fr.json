@@ -25,7 +25,8 @@
     "finishing": "Fin des courses…",
     "sending": "Envoi…",
     "dismiss": "Fermer la notification",
-    "itemStatus": "État du produit"
+    "itemStatus": "État du produit",
+    "updating": "Actualisation…"
   },
   "nav": {
     "home": "Accueil",
@@ -86,8 +87,13 @@
     "label": "Nom du foyer",
     "placeholder": "ex. Famille Ajmani",
     "button": "Créer notre foyer",
-    "hint": "Vous pourrez ensuite inviter votre famille.",
-    "creating": "Création de votre foyer…"
+    "hint": "Votre tableau de bord s’ouvrira ensuite. Invitez votre famille depuis la page Famille.",
+    "creating": "Création de votre foyer…",
+    "success": "Votre foyer est prêt",
+    "opening": "Ouverture de votre foyer…",
+    "recovery": "Votre foyer a été créé, mais nous n’avons pas pu l’ouvrir. Réessayez pour continuer.",
+    "failed": "Impossible de créer votre foyer. Réessayez.",
+    "nameError": "Saisissez un nom de foyer entre 2 et 120 caractères."
   },
   "home": {
     "morning": "Bonjour, {name}",

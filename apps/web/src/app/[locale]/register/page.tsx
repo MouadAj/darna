@@ -6,6 +6,7 @@ import {useForm} from 'react-hook-form';
 import {z} from 'zod';
 import {AuthCard, AuthSwitch, PasswordField} from '@/components/auth-ui';
 import {api} from '@/lib/api';
+import {PendingLabel} from '@/components/loading';
 import type {Locale} from '@housefamily/shared';
 
 const schema = z.object({
@@ -37,7 +38,7 @@ export default function RegisterPage() {
       <PasswordField id="password" label={t('password')} autoComplete="new-password" registration={register('password')} error={errors.password?t('passwordError'):undefined}/>
       <PasswordField id="confirm-password" label={t('confirmPassword')} autoComplete="new-password" registration={register('confirmPassword')} error={errors.confirmPassword?t('passwordMismatch'):undefined}/>
       {errors.root&&<p className="field-error" role="alert">{errors.root.message}</p>}
-      <button type="submit" className="button full" disabled={isSubmitting}>{isSubmitting?t('creatingAccount'):t('createAccount')}</button>
+      <button type="submit" className="button full" disabled={isSubmitting}><PendingLabel pending={isSubmitting}>{isSubmitting?t('creatingAccount'):t('createAccount')}</PendingLabel></button>
     </form>
     <AuthSwitch text={t('haveAccount')} href={`/${locale}/login`} label={t('login')}/>
   </AuthCard>;

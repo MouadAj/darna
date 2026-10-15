@@ -25,7 +25,8 @@
     "finishing": "Finishing shopping…",
     "sending": "Sending…",
     "dismiss": "Dismiss notification",
-    "itemStatus": "Item status"
+    "itemStatus": "Item status",
+    "updating": "Updating…"
   },
   "nav": {
     "home": "Home",
@@ -86,8 +87,13 @@
     "label": "Family home name",
     "placeholder": "e.g. Ajmani Family",
     "button": "Create our home",
-    "hint": "You’ll invite family members next.",
-    "creating": "Creating your home…"
+    "hint": "Your dashboard opens next. You can invite family from the Family page.",
+    "creating": "Creating your home…",
+    "success": "Your home is ready",
+    "opening": "Opening your home…",
+    "recovery": "Your home was created, but we couldn’t open it. Try again to continue.",
+    "failed": "We couldn’t create your home. Please try again.",
+    "nameError": "Enter a home name between 2 and 120 characters."
   },
   "home": {
     "morning": "Good morning, {name}",

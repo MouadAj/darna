@@ -5,6 +5,7 @@ import {useEffect, useRef, useState} from 'react';
 import {useTranslations} from 'next-intl';
 import type {Priority} from '@housefamily/shared';
 import {api} from '@/lib/api';
+import {PendingLabel} from './loading';
 import type {Category, Item} from '@/lib/types';
 import {ItemVisual} from './item-visual';
 import {ActionError, EmptyState, ErrorState, LoadingState, Sheet} from './ui';
@@ -45,7 +46,7 @@ function AddNeedContent({onClose}: {onClose: () => void}) {
       {custom&&<><div className="field"><label htmlFor="custom-name">{t('itemName')}</label><input className="input" id="custom-name" required maxLength={120} value={customName} disabled={mutation.isPending} onChange={event=>setCustomName(event.target.value)} placeholder={t('itemPlaceholder')}/></div><div className="field"><label htmlFor="custom-category">{t('category')}</label><select id="custom-category" className="select" value={customCategory} disabled={mutation.isPending} onChange={event=>setCustomCategory(event.target.value)}><option value="">{t('other')}</option>{categories.data?.map(entry=><option key={entry.id} value={entry.id}>{entry.name}</option>)}</select></div></>}
       <p className="field-label" id="priority-label">{p('label')}</p><div className="priority-options" role="group" aria-labelledby="priority-label">{(['NORMAL','SOON','URGENT'] as Priority[]).map(value=><button type="button" key={value} className={`chip ${priority===value?'active':''}`} aria-pressed={priority===value} disabled={mutation.isPending} onClick={()=>setPriority(value)}>{p(value)}</button>)}</div>
       {mutation.isError&&<ActionError retry={()=>mutation.mutate()} pending={mutation.isPending}/>}
-      <button type="submit" className="button full" style={{marginTop:20}} disabled={mutation.isPending||(custom&&!customName.trim())}>{mutation.isPending?common('saving'):common('add')}</button>
+      <button type="submit" className="button full" style={{marginTop:20}} disabled={mutation.isPending||(custom&&!customName.trim())}><PendingLabel pending={mutation.isPending}>{mutation.isPending?common('saving'):common('add')}</PendingLabel></button>
     </form>:<>
       <div className="search-box"><Search aria-hidden="true"/><input className="input" ref={searchRef} aria-label={common('search')} value={search} onChange={event=>setSearch(event.target.value)} placeholder={t('searchPlaceholder')}/></div>
       <div className="chip-scroll" role="group" aria-label={t('category')}><button type="button" className={`chip ${category==='all'?'active':''}`} aria-pressed={category==='all'} onClick={()=>setCategory('all')}>{t('all')}</button>{categories.data?.map(entry=><button type="button" key={entry.id} className={`chip ${category===entry.key?'active':''}`} aria-pressed={category===entry.key} onClick={()=>setCategory(entry.key)}>{entry.name}</button>)}</div>

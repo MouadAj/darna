@@ -28,7 +28,7 @@ This is a review of the implementation and selected browser interactions. It is 
 ## Verification
 
 - Automated regression tests cover dialog focus/scroll/dismissal, pending destructive confirmations, toast timing/cleanup, accessible password controls, failed Home requests and retry recovery, 401 versus temporary session failures, summary links, status/category empty states, invalid status parameters, preserving filters through Add, complete catalog browsing, selection Back, abandoned form reset, preserved forms on failed saves and successful retry, and failed shopping toggle/finish actions.
-- The final web suite has 25 passing tests. The existing API suite has 13 passing tests. Lint, strict type checks, and production builds pass.
+- The initial audit had 25 passing web tests and 13 passing API tests. Lint, strict type checks, and production builds pass.
 - Browser checks confirmed DM Sans loading and 600-weight section headings in French, and Noto Sans Arabic loading with RTL alignment and increased line spacing.
 - Native modal behavior was checked in the browser: initial heading focus, Tab remaining inside, Escape closing Add, focus returning to the launcher, body scroll restoration, and the LOW filter surviving closure.
 - French and Arabic Home, Needs, Shopping, Family, Activity, and Issues were checked in browser-hosted responsive frames at 390, 430, 640, 768, 1024, 1280, and 1536 CSS pixels. No document-level horizontal overflow was found. At 390px, the Add sheet stayed inside the viewport and its content scrolled independently.
@@ -59,3 +59,11 @@ A real HTTP check found that `GET /api/shopping/active` returned HTTP 200 with a
 The controller now explicitly serializes its result as JSON, including literal `null`. A controller-level HTTP regression test checks the body, content type, active-trip response, and household requirement. Frontend response-parsing tests preserve error handling for malformed responses and real API failures. The running browser recovered through Retry and displayed Start shopping normally.
 
 Validation: 13 API tests and 25 web tests passed; the web suite was rerun with `--maxWorkers=1` after a parallel run hit a test timeout under concurrent compilation load. Lint, type checks, and production builds passed.
+
+## Onboarding and loading follow-up
+
+- Creating a home now refreshes the session cache before navigating to the dashboard and shows a success toast. A failed session refresh offers recovery without creating another home. Revisiting onboarding checks for an existing household first.
+- Initial content loading uses page-specific skeletons for Dashboard, Needs, Shopping, Family, Activity, and Home Issues. Route and data-loading fallbacks share components; startup uses a branded status, actions show small spinners, and background refreshes preserve content. Reduced-motion styles disable loader animation.
+- Shopping waits for both the trip and required item data before showing an empty or ready state. Cached data stays visible after background request failures with retry feedback.
+- Browser favicons use transparent 16px, 32px, and 48px derivatives of the existing transparent logo source, with new URLs to avoid reusing the previous opaque icons.
+- The web suite now has 42 passing tests. Browser checks confirmed a single creation request, visible success feedback, dashboard navigation, slow dashboard/activity loading with navigation retained, and 390px mobile layouts including Arabic RTL without horizontal overflow. The temporary local test account and household were removed after verification. Lint, type checks, and the production web build passed.

@@ -7,8 +7,9 @@ import {useTranslations} from 'next-intl';
 import {useQuery} from '@tanstack/react-query';
 import {api, ApiError} from '@/lib/api';
 import type {SessionUser} from '@/lib/types';
-import {ActionError, ErrorState, LoadingState} from './ui';
+import {ActionError, ErrorState} from './ui';
 import {BrandLogo} from './brand-logo';
+import {SessionLoader} from './loading';
 import {needsHref} from '@/lib/needs-filters';
 
 export function AppShell({children}: {children: React.ReactNode}) {
@@ -31,7 +32,7 @@ export function AppShell({children}: {children: React.ReactNode}) {
     }
   }, [locale, me.data, me.isError, me.isSuccess, pathname, router, unauthenticated]);
 
-  if (me.isLoading) return <main className="boot-screen"><BrandLogo className="boot-brand"/><LoadingState rows={3}/></main>;
+  if (me.isLoading) return <SessionLoader/>;
   if (me.isError && !unauthenticated && !me.data) return <main className="boot-screen"><BrandLogo className="boot-brand"/><ErrorState message={common('loadFailed')} retry={()=>void me.refetch()}/></main>;
   if (unauthenticated || !me.data?.householdId) return null;
 

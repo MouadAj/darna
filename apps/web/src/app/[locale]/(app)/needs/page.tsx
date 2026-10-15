@@ -6,13 +6,14 @@ import {useTranslations} from 'next-intl';
 import {Suspense, useMemo, useState} from 'react';
 import type {ItemStatus} from '@housefamily/shared';
 import {api} from '@/lib/api';
+import {PageSkeleton, PendingLabel, RefreshIndicator} from '@/components/loading';
 import {needsHref, readNeedsStatus, type NeedsStatus} from '@/lib/needs-filters';
 import type {Category, Item, ShoppingTrip} from '@/lib/types';
 import {AddNeedSheet} from '@/components/add-need-sheet';
 import {ItemVisual} from '@/components/item-visual';
 import {StatusSelector} from '@/components/status-selector';
 import {useToast} from '@/components/toast';
-import {ActionError, EmptyState, ErrorState, LoadingState, PageHeader, PriorityBadge, Sheet, StatusBadge} from '@/components/ui';
+import {ActionError, EmptyState, ErrorState, PageHeader, PriorityBadge, Sheet, StatusBadge} from '@/components/ui';
 
 function NeedsContent() {
   const t=useTranslations('needs'); const common=useTranslations('common'); const statusT=useTranslations('status');
@@ -34,15 +35,17 @@ function NeedsContent() {
   const closeAdd=()=>router.replace(needsHref(locale,searchParams.toString(),{add:false}),{scroll:false});
   const clearFilters=()=>{setCategory('all');setStatus(null);};
   const filtered=status!==null||category!=='all';
-  return <div className="list-workspace"><PageHeader title={t('title')} subtitle={t('subtitle')}/>
+  if(items.isPending)return <PageSkeleton variant="needs"/>;
+  return <div className="list-workspace" aria-busy={items.isFetching}><RefreshIndicator active={items.isFetching||categories.isFetching}/><PageHeader title={t('title')} subtitle={t('subtitle')}/>
     <div className="needs-status-filters" role="group" aria-label={common('itemStatus')}>{([null,'NEEDED','LOW'] as const).map(value=><button type="button" key={value??'all'} aria-pressed={status===value} onClick={()=>setStatus(value)}>{value?statusT(value):t('allNeeds')}</button>)}</div>
     <div className="chip-scroll" role="group" aria-label={t('category')}><button type="button" className={`chip ${category==='all'?'active':''}`} aria-pressed={category==='all'} onClick={()=>setCategory('all')}>{t('all')}</button>{categories.data?.map(entry=><button type="button" key={entry.id} className={`chip ${category===entry.key?'active':''}`} aria-pressed={category===entry.key} onClick={()=>setCategory(entry.key)}>{entry.name}</button>)}</div>
     {filtered&&<button type="button" className="text-button needs-clear-filters" onClick={clearFilters}>{t('clearFilters')}</button>}
+    {items.isError&&items.data&&<ActionError message={common('loadFailed')} retry={()=>void items.refetch()} pending={items.isFetching}/>}
     {categories.isError&&<ActionError message={common('loadFailed')} retry={()=>void categories.refetch()} pending={categories.isFetching}/>}
-    {items.isLoading?<LoadingState rows={5}/>:items.isError?<ErrorState message={common('loadFailed')} retry={()=>void items.refetch()}/>:visible.length?<div className="item-list">{visible.map(item=><button type="button" className="item-row item-row-button" key={item.id} onClick={()=>{update.reset();setSelected(item);}}><ItemVisual visualKey={item.visualKey}/><div className="item-row-main"><h3>{item.name}</h3><div className="item-meta"><span>{t('updatedBy',{status:statusT(item.status),name:item.updatedBy.name})}</span><PriorityBadge priority={item.priority}/></div></div><StatusBadge status={item.status}/></button>)}</div>:<EmptyState icon={<CircleCheckBig/>} title={filtered?t('filteredEmpty'):t('empty')} body={filtered?t('filteredEmptyBody'):t('emptyBody')} action={filtered?<button type="button" className="button secondary" onClick={clearFilters}>{t('clearFilters')}</button>:undefined}/>}
-    <div className="shopping-bar"><button type="button" className="button full" disabled={start.isPending||!items.isSuccess||outstanding.length===0} onClick={()=>start.mutate()}><ShoppingBasket aria-hidden="true"/>{start.isPending?common('starting'):t('shopping')}</button>{start.isError&&<ActionError retry={()=>start.mutate()}/>}</div>
+    {items.isError&&!items.data?<ErrorState message={common('loadFailed')} retry={()=>void items.refetch()}/>:visible.length?<div className="item-list">{visible.map(item=><button type="button" className="item-row item-row-button" key={item.id} onClick={()=>{update.reset();setSelected(item);}}><ItemVisual visualKey={item.visualKey}/><div className="item-row-main"><h3>{item.name}</h3><div className="item-meta"><span>{t('updatedBy',{status:statusT(item.status),name:item.updatedBy.name})}</span><PriorityBadge priority={item.priority}/></div></div><StatusBadge status={item.status}/></button>)}</div>:<EmptyState icon={<CircleCheckBig/>} title={filtered?t('filteredEmpty'):t('empty')} body={filtered?t('filteredEmptyBody'):t('emptyBody')} action={filtered?<button type="button" className="button secondary" onClick={clearFilters}>{t('clearFilters')}</button>:undefined}/>}
+    <div className="shopping-bar"><button type="button" className="button full" disabled={start.isPending||!items.isSuccess||outstanding.length===0} onClick={()=>start.mutate()}><ShoppingBasket aria-hidden="true"/><PendingLabel pending={start.isPending}>{start.isPending?common('starting'):t('shopping')}</PendingLabel></button>{start.isError&&<ActionError retry={()=>start.mutate()}/>}</div>
     <Sheet open={Boolean(selected)} onClose={()=>setSelected(null)} pending={update.isPending} title={selected?.name??''}>{selected&&<><div className="selected-item"><ItemVisual visualKey={selected.visualKey} size="lg"/><StatusBadge status={selected.status}/></div><StatusSelector value={selected.status} disabled={update.isPending} onChange={value=>update.mutate(value)}/>{update.isPending&&<p className="form-hint" role="status">{common('saving')}</p>}{update.isError&&<ActionError retry={()=>update.mutate(update.variables!)}/>}</>}</Sheet>
     <AddNeedSheet open={addOpen} onClose={closeAdd}/>
   </div>;
 }
-export default function NeedsPage(){return <Suspense><NeedsContent/></Suspense>}
+export default function NeedsPage(){return <Suspense fallback={<PageSkeleton variant="needs"/>}><NeedsContent/></Suspense>}
