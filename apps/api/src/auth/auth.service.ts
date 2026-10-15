@@ -2,9 +2,9 @@ import {ConflictException, ForbiddenException, Injectable, UnauthorizedException
 import {ConfigService} from '@nestjs/config';
 import {argon2id, hash, verify} from 'argon2';
 import {createHash, randomBytes} from 'node:crypto';
-import {EmailService} from './email.service';
-import {PrismaService} from '../prisma/prisma.service';
-import {toAppLocale, toLocale} from '../common/locale';
+import {EmailService} from './email.service.js';
+import {PrismaService} from '../prisma/prisma.service.js';
+import {toAppLocale, toLocale} from '../common/locale.js';
 
 type Locale = 'en' | 'fr' | 'ar';
 

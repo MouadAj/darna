@@ -1,5 +1,5 @@
 import {ServiceUnavailableException} from '@nestjs/common';
-import {EmailService} from './email.service';
+import {EmailService} from './email.service.js';
 
 describe('production email configuration', () => {
   it('never exposes confirmation links through development previews in production', async () => {

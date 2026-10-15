@@ -1,11 +1,11 @@
 import {Body, Controller, Delete, ForbiddenException, Get, HttpCode, Param, Post, Res} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import type {Response} from 'express';
-import {SessionService} from '../auth/session.service';
-import {CurrentUser, type AuthContext} from '../common/auth/auth-user';
-import {Public} from '../common/auth/public.decorator';
-import {AcceptInvitationDto, CreateInvitationDto} from './dto';
-import {InvitationsService} from './invitations.service';
+import {SessionService} from '../auth/session.service.js';
+import {CurrentUser, type AuthContext} from '../common/auth/auth-user.js';
+import {Public} from '../common/auth/public.decorator.js';
+import {AcceptInvitationDto, CreateInvitationDto} from './dto.js';
+import {InvitationsService} from './invitations.service.js';
 
 @ApiTags('invitations') @Controller('invitations')
 export class InvitationsController {

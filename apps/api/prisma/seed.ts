@@ -3,7 +3,7 @@ import {createHash, randomBytes} from 'node:crypto';
 import {PrismaPg} from '@prisma/adapter-pg';
 import {PrismaClient} from '@prisma/client';
 import {argon2id, hash} from 'argon2';
-import {DEFAULT_CATALOG} from '../src/households/catalog';
+import {DEFAULT_CATALOG} from '../src/households/catalog.js';
 
 config({path: '../../.env'});
 config();

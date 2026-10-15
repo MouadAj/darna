@@ -3,10 +3,10 @@ import {Reflector} from '@nestjs/core';
 import {ConfigService} from '@nestjs/config';
 import type {Request} from 'express';
 import {createHash} from 'node:crypto';
-import {PrismaService} from '../../prisma/prisma.service';
-import {IS_PUBLIC_KEY} from './public.decorator';
-import type {AuthenticatedRequest} from './auth-user';
-import {toLocale} from '../locale';
+import {PrismaService} from '../../prisma/prisma.service.js';
+import {IS_PUBLIC_KEY} from './public.decorator.js';
+import type {AuthenticatedRequest} from './auth-user.js';
+import {toLocale} from '../locale.js';
 
 @Injectable()
 export class SessionGuard implements CanActivate {

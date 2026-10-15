@@ -4,9 +4,9 @@ import {Test} from '@nestjs/testing';
 import {ExpressAdapter} from '@nestjs/platform-express';
 import type {NextFunction, Response} from 'express';
 import request from 'supertest';
-import type {AuthContext, AuthenticatedRequest} from '../common/auth/auth-user';
-import {ShoppingController} from './shopping.controller';
-import {ShoppingService} from './shopping.service';
+import type {AuthContext, AuthenticatedRequest} from '../common/auth/auth-user.js';
+import {ShoppingController} from './shopping.controller.js';
+import {ShoppingService} from './shopping.service.js';
 
 const member: AuthContext = {
   id: 'member-a', name: 'Member', email: 'member@example.test', preferredLocale: 'en',

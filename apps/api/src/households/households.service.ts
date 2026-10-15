@@ -1,6 +1,6 @@
 import {BadRequestException, ForbiddenException, Injectable, NotFoundException} from '@nestjs/common';
-import {PrismaService} from '../prisma/prisma.service';
-import {DEFAULT_CATALOG} from './catalog';
+import {PrismaService} from '../prisma/prisma.service.js';
+import {DEFAULT_CATALOG} from './catalog.js';
 
 @Injectable()
 export class HouseholdsService {

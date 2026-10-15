@@ -1,8 +1,8 @@
 import {Body, Controller, Patch} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
-import {CurrentUser, type AuthContext} from '../common/auth/auth-user';
-import {UpdatePreferencesDto} from './dto';
-import {UsersService} from './users.service';
+import {CurrentUser, type AuthContext} from '../common/auth/auth-user.js';
+import {UpdatePreferencesDto} from './dto.js';
+import {UsersService} from './users.service.js';
 
 @ApiTags('users')
 @Controller('users')

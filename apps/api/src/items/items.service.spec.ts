@@ -1,5 +1,5 @@
 import {NotFoundException} from '@nestjs/common';
-import {ItemsService} from './items.service';
+import {ItemsService} from './items.service.js';
 
 describe('ItemsService household isolation', () => {
   const prisma = {item: {findFirst: jest.fn(), update: jest.fn()}, activity: {create: jest.fn()}};

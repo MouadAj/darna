@@ -5,13 +5,12 @@ import {ExpressAdapter} from '@nestjs/platform-express';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
-import {AppModule} from './app.module';
-import {ApiExceptionFilter} from './common/errors/api-exception.filter';
-import {resolveApiPort} from './common/runtime-config';
+import {AppModule} from './app.module.js';
+import {ApiExceptionFilter} from './common/errors/api-exception.filter.js';
+import {resolveApiPort} from './common/runtime-config.js';
 
 async function bootstrap() {
-  // Passing the adapter explicitly avoids Nest's runtime package loader, which
-  // cannot synchronously discover an ESM-only HTTP adapter from CommonJS output.
+  // Select the Express adapter explicitly for consistent local and hosted startup.
   const app = await NestFactory.create(AppModule, new ExpressAdapter(), {cors: false});
   const config = app.get(ConfigService);
 

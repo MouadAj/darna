@@ -1,6 +1,6 @@
 import {BadRequestException} from '@nestjs/common';
 import {createHash} from 'node:crypto';
-import {InvitationsService} from './invitations.service';
+import {InvitationsService} from './invitations.service.js';
 
 describe('InvitationsService acceptance', () => {
   it('creates the invited membership and accepts the one-time invitation', async () => {

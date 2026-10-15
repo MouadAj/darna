@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "NodeNext",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -14,7 +14,12 @@
     "incremental": true,
     "strict": true,
     "strictPropertyInitialization": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "moduleResolution": "NodeNext"
   },
-  "include": ["src/**/*.ts", "prisma/**/*.ts", "test/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "prisma/**/*.ts",
+    "test/**/*.ts"
+  ]
 }

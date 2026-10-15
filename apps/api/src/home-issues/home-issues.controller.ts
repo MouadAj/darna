@@ -1,8 +1,8 @@
 import {BadRequestException, Body, Controller, Get, Param, Patch, Post} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
-import {CurrentUser, type AuthContext} from '../common/auth/auth-user';
-import {CreateIssueDto, UpdateIssueDto} from './dto';
-import {HomeIssuesService} from './home-issues.service';
+import {CurrentUser, type AuthContext} from '../common/auth/auth-user.js';
+import {CreateIssueDto, UpdateIssueDto} from './dto.js';
+import {HomeIssuesService} from './home-issues.service.js';
 @ApiTags('home issues') @Controller('home-issues')
 export class HomeIssuesController {
   constructor(private readonly issues: HomeIssuesService) {}

@@ -1,8 +1,7 @@
-import type {Config} from 'jest';
-
-const config: Config = {
+module.exports = {
   extensionsToTreatAsEsm: ['.ts'],
   moduleFileExtensions: ['js', 'json', 'ts'],
+  moduleNameMapper: {'^(\\.{1,2}/.*)\\.js$': '$1'},
   rootDir: '.',
   testRegex: '.*\\.spec\\.ts$',
   transform: {
@@ -18,4 +17,3 @@ const config: Config = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testEnvironment: 'node',
 };
-export default config;

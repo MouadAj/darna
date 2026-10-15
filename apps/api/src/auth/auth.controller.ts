@@ -2,11 +2,11 @@ import {Body, Controller, Get, HttpCode, Post, Req, Res} from '@nestjs/common';
 import {Throttle} from '@nestjs/throttler';
 import {ApiTags} from '@nestjs/swagger';
 import type {Request, Response} from 'express';
-import {CurrentUser, type AuthContext} from '../common/auth/auth-user';
-import {Public} from '../common/auth/public.decorator';
-import {AuthService} from './auth.service';
-import {DevLoginDto, LoginDto, RegisterDto, ResendVerificationDto, VerifyEmailDto} from './dto';
-import {SessionService} from './session.service';
+import {CurrentUser, type AuthContext} from '../common/auth/auth-user.js';
+import {Public} from '../common/auth/public.decorator.js';
+import {AuthService} from './auth.service.js';
+import {DevLoginDto, LoginDto, RegisterDto, ResendVerificationDto, VerifyEmailDto} from './dto.js';
+import {SessionService} from './session.service.js';
 
 @ApiTags('auth')
 @Controller('auth')

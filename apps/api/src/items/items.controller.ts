@@ -1,8 +1,8 @@
 import {BadRequestException, Body, Controller, Get, Param, Patch, Post, Query} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
-import {CurrentUser, type AuthContext} from '../common/auth/auth-user';
-import {CreateItemDto, ListItemsQuery, UpdateItemDto} from './dto';
-import {ItemsService} from './items.service';
+import {CurrentUser, type AuthContext} from '../common/auth/auth-user.js';
+import {CreateItemDto, ListItemsQuery, UpdateItemDto} from './dto.js';
+import {ItemsService} from './items.service.js';
 
 @ApiTags('items') @Controller()
 export class ItemsController {

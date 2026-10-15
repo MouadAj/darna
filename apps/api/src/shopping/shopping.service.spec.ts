@@ -1,4 +1,4 @@
-import {ShoppingService} from './shopping.service';
+import {ShoppingService} from './shopping.service.js';
 
 describe('ShoppingService completion', () => {
   it('marks only purchased items available and keeps the household predicate', async () => {

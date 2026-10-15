@@ -1,7 +1,7 @@
 import {Injectable} from '@nestjs/common';
 import type {Locale} from '@housefamily/shared';
-import {PrismaService} from '../prisma/prisma.service';
-import {toAppLocale, toLocale} from '../common/locale';
+import {PrismaService} from '../prisma/prisma.service.js';
+import {toAppLocale, toLocale} from '../common/locale.js';
 
 @Injectable()
 export class UsersService {

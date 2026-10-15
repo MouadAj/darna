@@ -1,7 +1,7 @@
 import {ForbiddenException, UnauthorizedException} from '@nestjs/common';
 import {argon2id, hash} from 'argon2';
 import {createHash} from 'node:crypto';
-import {AuthService} from './auth.service';
+import {AuthService} from './auth.service.js';
 
 describe('AuthService', () => {
   const config = {

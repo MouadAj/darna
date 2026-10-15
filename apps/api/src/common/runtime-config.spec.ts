@@ -1,4 +1,4 @@
-import {resolveApiPort} from './runtime-config';
+import {resolveApiPort} from './runtime-config.js';
 
 describe('API listener configuration', () => {
   it('uses the hosting provider port before the local port', () => {

@@ -2,7 +2,7 @@ import {Injectable} from '@nestjs/common';
 import {ConfigService} from '@nestjs/config';
 import type {Request, Response} from 'express';
 import {createHash, randomBytes} from 'node:crypto';
-import {PrismaService} from '../prisma/prisma.service';
+import {PrismaService} from '../prisma/prisma.service.js';
 
 @Injectable()
 export class SessionService {

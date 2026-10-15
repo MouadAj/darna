@@ -2,18 +2,18 @@ import {Module} from '@nestjs/common';
 import {APP_GUARD} from '@nestjs/core';
 import {ConfigModule} from '@nestjs/config';
 import {ThrottlerGuard, ThrottlerModule} from '@nestjs/throttler';
-import {AuthModule} from './auth/auth.module';
-import {SessionGuard} from './common/auth/session.guard';
-import {PrismaModule} from './prisma/prisma.module';
-import {HealthModule} from './health/health.module';
-import {HouseholdsModule} from './households/households.module';
-import {InvitationsModule} from './invitations/invitations.module';
-import {ItemsModule} from './items/items.module';
-import {ShoppingModule} from './shopping/shopping.module';
-import {HomeIssuesModule} from './home-issues/home-issues.module';
-import {ActivityModule} from './activity/activity.module';
-import {NotificationsModule} from './notifications/notifications.module';
-import {UsersModule} from './users/users.module';
+import {AuthModule} from './auth/auth.module.js';
+import {SessionGuard} from './common/auth/session.guard.js';
+import {PrismaModule} from './prisma/prisma.module.js';
+import {HealthModule} from './health/health.module.js';
+import {HouseholdsModule} from './households/households.module.js';
+import {InvitationsModule} from './invitations/invitations.module.js';
+import {ItemsModule} from './items/items.module.js';
+import {ShoppingModule} from './shopping/shopping.module.js';
+import {HomeIssuesModule} from './home-issues/home-issues.module.js';
+import {ActivityModule} from './activity/activity.module.js';
+import {NotificationsModule} from './notifications/notifications.module.js';
+import {UsersModule} from './users/users.module.js';
 
 @Module({
   imports: [

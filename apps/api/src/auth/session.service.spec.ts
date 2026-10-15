@@ -1,5 +1,5 @@
 import {createHash} from 'node:crypto';
-import {SessionService} from './session.service';
+import {SessionService} from './session.service.js';
 
 describe('SessionService logout', () => {
   it('issues a secure host-only cookie and persists only the token hash in production', async () => {

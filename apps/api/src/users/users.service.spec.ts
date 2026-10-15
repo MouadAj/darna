@@ -1,4 +1,4 @@
-import {UsersService} from './users.service';
+import {UsersService} from './users.service.js';
 
 describe('UsersService', () => {
   it('persists the signed-in user locale and returns the public locale value', async () => {

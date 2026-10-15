@@ -1,8 +1,8 @@
 import {BadRequestException, Controller, Get, Param, Patch, Post, Res} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import type {Response} from 'express';
-import {CurrentUser, type AuthContext} from '../common/auth/auth-user';
-import {ShoppingService} from './shopping.service';
+import {CurrentUser, type AuthContext} from '../common/auth/auth-user.js';
+import {ShoppingService} from './shopping.service.js';
 @ApiTags('shopping') @Controller('shopping')
 export class ShoppingController {
   constructor(private readonly shopping: ShoppingService) {}

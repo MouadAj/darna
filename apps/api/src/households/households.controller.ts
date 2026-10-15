@@ -1,8 +1,8 @@
 import {BadRequestException, Body, Controller, Delete, ForbiddenException, Get, Param, Post} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
-import {CurrentUser, type AuthContext} from '../common/auth/auth-user';
-import {CreateHouseholdDto} from './dto';
-import {HouseholdsService} from './households.service';
+import {CurrentUser, type AuthContext} from '../common/auth/auth-user.js';
+import {CreateHouseholdDto} from './dto.js';
+import {HouseholdsService} from './households.service.js';
 
 @ApiTags('households') @Controller('households')
 export class HouseholdsController {

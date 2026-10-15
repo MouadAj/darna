@@ -1,6 +1,6 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
-import {PrismaService} from '../prisma/prisma.service';
-import type {CreateIssueDto, UpdateIssueDto} from './dto';
+import {PrismaService} from '../prisma/prisma.service.js';
+import type {CreateIssueDto, UpdateIssueDto} from './dto.js';
 
 const issueInclude = {createdBy: {select: {id: true, name: true}}, handledBy: {select: {id: true, name: true}}} as const;
 @Injectable()

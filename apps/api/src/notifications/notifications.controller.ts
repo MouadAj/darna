@@ -1,8 +1,8 @@
 import {Body, Controller, Get, Post} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
-import {CurrentUser, type AuthContext} from '../common/auth/auth-user';
-import {PrismaService} from '../prisma/prisma.service';
-import {SubscribePushDto} from './dto';
+import {CurrentUser, type AuthContext} from '../common/auth/auth-user.js';
+import {PrismaService} from '../prisma/prisma.service.js';
+import {SubscribePushDto} from './dto.js';
 @ApiTags('notifications') @Controller('notifications')
 export class NotificationsController {
   constructor(private readonly prisma: PrismaService) {}

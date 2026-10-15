@@ -1,7 +1,7 @@
 import {BadRequestException, Injectable, NotFoundException} from '@nestjs/common';
 import type {Prisma} from '@prisma/client';
-import {PrismaService} from '../prisma/prisma.service';
-import type {CreateItemDto, ListItemsQuery, UpdateItemDto} from './dto';
+import {PrismaService} from '../prisma/prisma.service.js';
+import type {CreateItemDto, ListItemsQuery, UpdateItemDto} from './dto.js';
 
 const itemSelect = {
   id: true, name: true, visualKey: true, status: true, priority: true, usual: true, updatedAt: true,
