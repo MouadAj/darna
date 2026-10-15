@@ -25,7 +25,6 @@ export class SessionGuard implements CanActivate {
       include: {user: {include: {memberships: {include: {household: true}}}}},
     });
     if (!session || session.expiresAt <= new Date()) throw new UnauthorizedException('Your session has expired');
-    if (!session.user.emailVerifiedAt) throw new UnauthorizedException('Confirm your email before continuing');
     const membership = session.user.memberships[0] ?? null;
     (request as AuthenticatedRequest).auth = {
       id: session.user.id,

@@ -125,3 +125,49 @@ describe('shopping mutation failures',()=>{
     expect(screen.getByRole('button',{name:'Try again'})).toBeEnabled();expect(mocks.replace).not.toHaveBeenCalled();
   });
 });
+
+describe('accounts and invitations without email delivery',()=>{
+  it('signs in immediately after registration and opens the home route',async()=>{
+    const {default:RegisterPage}=await import('@/app/[locale]/register/page');
+    mocks.api.mockResolvedValue({preferredLocale:'en'});
+    renderWithProviders(<RegisterPage/>);
+    fireEvent.change(screen.getByLabelText('Your name'),{target:{value:'Mouad'}});
+    fireEvent.change(screen.getByLabelText('Email address'),{target:{value:'mouad@example.test'}});
+    fireEvent.change(screen.getByLabelText('Password'),{target:{value:'secure-password'}});
+    fireEvent.change(screen.getByLabelText('Confirm password'),{target:{value:'secure-password'}});
+    fireEvent.click(screen.getByRole('button',{name:'Create account'}));
+    await waitFor(()=>expect(mocks.replace).toHaveBeenCalledWith('/en'));
+    expect(mocks.api).toHaveBeenCalledWith('/auth/register',expect.objectContaining({method:'POST'}));
+    expect(mocks.push).not.toHaveBeenCalled();
+    expect(screen.queryByText(/confirm your email/i)).not.toBeInTheDocument();
+  });
+
+  it('creates a copyable family invitation link and shows a manual fallback on copy failure',async()=>{
+    const {default:FamilyPage}=await import('@/app/[locale]/(app)/family/page');
+    const url='https://darna.example/en/invite/private-token';
+    const copy=vi.fn().mockRejectedValue(new Error('clipboard unavailable'));
+    Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:copy}});
+    mocks.api.mockImplementation((path:string)=>Promise.resolve(path==='/auth/me'?me:path==='/households/family'?{name:'Family',members:[],invitations:[]}:{invitationUrl:url}));
+    renderWithProviders(<FamilyPage/>);
+    fireEvent.click(await screen.findByRole('button',{name:'Invite family member'}));
+    fireEvent.change(screen.getByLabelText('Their name'),{target:{value:'Fatima'}});
+    fireEvent.change(screen.getByLabelText('Their email'),{target:{value:'fatima@example.test'}});
+    fireEvent.click(screen.getByRole('button',{name:'Create invitation link'}));
+    expect(await screen.findByRole('textbox',{name:'Invitation link'})).toHaveValue(url);
+    fireEvent.click(screen.getByRole('button',{name:'Copy link'}));
+    expect(await screen.findByRole('alert')).toHaveTextContent('Select the link above and copy it');
+    copy.mockResolvedValue(undefined);fireEvent.click(screen.getByRole('button',{name:'Copy link'}));
+    expect(await screen.findByRole('button',{name:'Link copied'})).toBeVisible();
+    expect(copy).toHaveBeenCalledWith(url);
+  });
+
+  it('makes the refreshed link visible for an existing pending invitation',async()=>{
+    const {default:FamilyPage}=await import('@/app/[locale]/(app)/family/page');
+    const url='https://darna.example/en/invite/new-private-token';
+    mocks.api.mockImplementation((path:string)=>Promise.resolve(path==='/auth/me'?me:path==='/households/family'?{name:'Family',members:[],invitations:[{id:'i',invitedName:'Fatima',invitedEmail:'f@example.test'}]}:{invitationUrl:url}));
+    renderWithProviders(<FamilyPage/>);
+    fireEvent.click(await screen.findByRole('button',{name:'New link'}));
+    expect(await screen.findByRole('textbox',{name:'Invitation link'})).toHaveValue(url);
+    expect(mocks.api).toHaveBeenCalledWith('/invitations/i/link',{method:'POST'});
+  });
+});

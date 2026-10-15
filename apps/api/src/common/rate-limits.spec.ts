@@ -11,16 +11,16 @@ function createServer() {
 
 describe('hosted request limits', () => {
   it.each([
-    ['register', 5], ['resend-verification', 3], ['login', 8],
+    ['auth/register', 5], ['auth/login', 8], ['invitations/accept', 8],
   ])('limits %s attempts and returns a usable retry response', async (route, limit) => {
     const server = createServer();
     for (let i = 0; i < Number(limit); i++) {
-      await request(server).post(`/api/auth/${route}`).set('X-Forwarded-For', '192.0.2.1').expect(204);
+      await request(server).post(`/api/${route}`).set('X-Forwarded-For', '192.0.2.1').expect(204);
     }
-    const response = await request(server).post(`/api/auth/${route}`).set('X-Forwarded-For', '192.0.2.1').expect(429);
+    const response = await request(server).post(`/api/${route}`).set('X-Forwarded-For', '192.0.2.1').expect(429);
     expect(response.body.statusCode).toBe(429);
     expect(Number(response.headers['retry-after'])).toBeGreaterThan(0);
-    await request(server).post(`/api/auth/${route}`).set('X-Forwarded-For', '192.0.2.2').expect(204);
+    await request(server).post(`/api/${route}`).set('X-Forwarded-For', '192.0.2.2').expect(204);
   });
 
   it('limits general API requests without consuming another client’s quota', async () => {

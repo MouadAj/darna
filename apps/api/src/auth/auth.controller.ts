@@ -4,7 +4,7 @@ import type {Request, Response} from 'express';
 import {CurrentUser, type AuthContext} from '../common/auth/auth-user.js';
 import {Public} from '../common/auth/public.decorator.js';
 import {AuthService} from './auth.service.js';
-import {DevLoginDto, LoginDto, RegisterDto, ResendVerificationDto, VerifyEmailDto} from './dto.js';
+import {DevLoginDto, LoginDto, RegisterDto} from './dto.js';
 import {SessionService} from './session.service.js';
 
 @ApiTags('auth')
@@ -12,17 +12,11 @@ import {SessionService} from './session.service.js';
 export class AuthController {
   constructor(private readonly auth: AuthService, private readonly sessions: SessionService) {}
 
-  @Public() @Post('register') @HttpCode(202)
-  register(@Body() dto: RegisterDto) { return this.auth.register(dto.name, dto.email, dto.password, dto.locale); }
-
-  @Public() @Post('resend-verification') @HttpCode(202)
-  resend(@Body() dto: ResendVerificationDto) { return this.auth.resendVerification(dto.email, dto.locale); }
-
-  @Public() @Post('verify-email') @HttpCode(200)
-  async verifyEmail(@Body() dto: VerifyEmailDto, @Res({passthrough: true}) response: Response) {
-    const result = await this.auth.verifyEmail(dto.token);
+  @Public() @Post('register')
+  async register(@Body() dto: RegisterDto, @Res({passthrough: true}) response: Response) {
+    const result = await this.auth.register(dto.name, dto.email, dto.password, dto.locale);
     await this.sessions.create(result.userId, response);
-    return {message: 'Email confirmed and signed in', preferredLocale: result.preferredLocale};
+    return {message: 'Account created and signed in', preferredLocale: result.preferredLocale};
   }
 
   @Public() @Post('login') @HttpCode(200)

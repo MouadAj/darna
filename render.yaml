@@ -17,19 +17,9 @@ services:
         value: production
       - key: DEV_AUTH_ENABLED
         value: "false"
-      - key: EMAIL_FROM_NAME
-        value: Darna
       - key: DATABASE_URL
         sync: false
       - key: DIRECT_URL
         sync: false
       - key: WEB_ORIGIN
-        sync: false
-      - key: EMAILJS_SERVICE_ID
-        sync: false
-      - key: EMAILJS_TEMPLATE_ID
-        sync: false
-      - key: EMAILJS_PUBLIC_KEY
-        sync: false
-      - key: EMAILJS_PRIVATE_KEY
         sync: false

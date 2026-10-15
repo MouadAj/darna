@@ -6,6 +6,7 @@ import {useForm} from 'react-hook-form';
 import {z} from 'zod';
 import {AuthCard, AuthSwitch, PasswordField} from '@/components/auth-ui';
 import {api} from '@/lib/api';
+import type {Locale} from '@housefamily/shared';
 
 const schema = z.object({
   name: z.string().trim().min(2),
@@ -22,10 +23,8 @@ export default function RegisterPage() {
   const {register, handleSubmit, setError, formState: {errors, isSubmitting}} = useForm<Values>({resolver: zodResolver(schema)});
   const submit = handleSubmit(async (values) => {
     try {
-      const result = await api<{developmentUrl?: string}>('/auth/register', {method: 'POST', body: JSON.stringify({name: values.name, email: values.email, password: values.password, locale})});
-      const query = new URLSearchParams({email: values.email});
-      if (result.developmentUrl) query.set('developmentUrl', result.developmentUrl);
-      router.push(`/${locale}/auth/check-email?${query}`);
+      const result = await api<{preferredLocale: Locale}>('/auth/register', {method: 'POST', body: JSON.stringify({name: values.name, email: values.email, password: values.password, locale})});
+      router.replace(`/${result.preferredLocale}`);
     } catch (error) {
       setError('root', {message: error instanceof Error ? error.message : t('genericError')});
     }

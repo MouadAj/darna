@@ -57,7 +57,7 @@
   "auth": {
     "registerEyebrow": "Create your family home",
     "registerTitle": "Let’s create your account",
-    "registerIntro": "First, confirm your email. Then you can name your home and invite your family.",
+    "registerIntro": "Create your account, then name your home and invite your family.",
     "loginEyebrow": "Welcome back",
     "loginTitle": "Log in to your home",
     "loginIntro": "Use the email and password you chose when joining HouseFamily.",
@@ -74,25 +74,10 @@
     "haveAccount": "Already have an account?",
     "newHere": "New to HouseFamily?",
     "genericError": "Something went wrong. Please try again.",
-    "resend": "Resend confirmation email",
-    "checkEyebrow": "One quick check",
-    "checkTitle": "Check your email",
-    "checkIntro": "We sent a confirmation link to {email}.",
-    "checkSpam": "Open the link to confirm your account. If it is not there, check your spam folder.",
-    "resent": "A new confirmation email is on its way.",
-    "openDevelopmentLink": "Open development confirmation",
-    "backToLogin": "Back to login",
     "showPassword": "Show password",
     "hidePassword": "Hide password",
     "loggingIn": "Logging in…",
-    "creatingAccount": "Creating your account…",
-    "resending": "Sending confirmation…"
-  },
-  "verify": {
-    "title": "Confirming your email…",
-    "success": "Email confirmed. You’re signed in.",
-    "invalid": "This confirmation link is invalid or has expired.",
-    "login": "Go to login"
+    "creatingAccount": "Creating your account…"
   },
   "createHome": {
     "eyebrow": "Welcome home",
@@ -186,14 +171,10 @@
     "inviteTitle": "Who would you like to invite?",
     "name": "Their name",
     "email": "Their email",
-    "send": "Send invitation",
-    "sent": "Invitation sent",
-    "resend": "Resend",
     "cancelInvite": "Cancel invitation",
     "removeAccess": "Remove access",
     "removeTitle": "Remove {name}?",
     "removeBody": "They will no longer be able to open this family home.",
-    "developmentLink": "Development invitation link",
     "onlyOwner": "Only the owner can invite or manage family members.",
     "account": "Your account",
     "accountHint": "Language and secure sign-out.",
@@ -202,7 +183,16 @@
     "fr": "Français",
     "ar": "العربية",
     "languageError": "We couldn't change the language. Please try again.",
-    "logout": "Log out"
+    "logout": "Log out",
+    "createLink": "Create invitation link",
+    "linkCreated": "Invitation link ready",
+    "newLink": "New link",
+    "inviteHint": "Create a private link and share it with this family member yourself.",
+    "shareLink": "Invitation link",
+    "shareHint": "Share this link only with the person you invited. A new link replaces the previous one.",
+    "copyLink": "Copy link",
+    "copied": "Link copied",
+    "copyError": "Could not copy automatically. Select the link above and copy it."
   },
   "activity": {
     "title": "Activity",
@@ -246,7 +236,7 @@
   "invite": {
     "hello": "Hello {name}",
     "title": "You’re invited to {household}",
-    "body": "Choose a password, then join your family’s private home.",
+    "body": "Choose a password to join. If you already have an account, use your current password.",
     "password": "Choose a password",
     "confirmPassword": "Confirm password",
     "accept": "Join the family home",

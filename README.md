@@ -58,22 +58,11 @@ HouseFamily2026!
 
 `DEV_AUTH_ENABLED=true` enables this development-only shortcut. It must be `false` in production.
 
-Registration uses an email and an Argon2id-hashed password. A new account cannot log in until its short-lived, one-time email-confirmation token is consumed; only the token's SHA-256 hash is stored. A confirmed login creates a random persistent session in an HTTP-only, SameSite cookie, and logout revokes that session in PostgreSQL.
+Registration uses an email and an Argon2id-hashed password and signs the user in immediately. Email addresses identify accounts; Darna does not verify ownership of the address or send emails. Existing accounts, including those created before confirmation was removed, can log in with their current password. Registering an existing address never changes its password.
 
-The normal owner flow is: **Create account → open confirmation email → Confirm my email → create the family home → invite family**. Returning users choose **Log in** and enter their email and password. An invited member opens their private invitation URL, chooses a password, and is signed directly into the household after acceptance.
+The owner flow is: **Create account → create the family home → create an invitation link → copy and share it privately**. Returning users choose **Log in**. Sessions use random tokens stored as SHA-256 hashes in PostgreSQL and HTTP-only, SameSite cookies; logout revokes the session.
 
-Invitations work similarly. The owner sends a private invitation, and a new member opens it, chooses a password, and joins the intended household. The invitation token proves control of the invited email, expires after seven days, and is single-use.
-
-### Configure EmailJS
-
-HouseFamily calls EmailJS from the NestJS API, never from browser code. In the EmailJS dashboard:
-
-1. Connect an email service.
-2. Create one template whose **To Email** is `{{to_email}}` and whose subject is `{{subject}}`.
-3. Use `{{to_name}}`, `{{message}}`, `{{action_url}}`, and `{{action_label}}` in the template body. `{{from_name}}` is also available.
-4. Enable private-key authorization, then put the service ID, template ID, public key, and private key in `.env` using the variables from `.env.example`.
-
-Restart the API after changing `.env`. When all EmailJS variables are present, emails are delivered through the connected service. When they are absent and `DEV_AUTH_ENABLED=true`, the API logs the confirmation/invitation URL and the web UI displays a development-only open-link action. Set `DEV_AUTH_ENABLED=false` in production.
+Only the owner can create, replace, or cancel invitation links. Links expire after seven days and can be accepted once. New members choose a password; existing accounts must supply their current password. The link is a private access credential, so share it directly with the intended person. Creating a new link invalidates the previous one. Email delivery services and API keys are not required.
 
 ## Database workflow
 
@@ -88,7 +77,7 @@ npm run db:migrate
 npm run db:seed
 ```
 
-The schema covers users, households, single-household memberships, invitations, sessions, hashed one-time authentication tokens, categories, items, shopping trips and trip items, home issues, activity, notifications, and push subscriptions. Household-owned tables are indexed by `householdId` and their common status/filter columns.
+The schema covers users, households, single-household memberships, invitations, sessions, legacy authentication-token records, categories, items, shopping trips and trip items, home issues, activity, notifications, and push subscriptions. Household-owned tables are indexed by `householdId` and their common status/filter columns.
 
 ## Commands
 
@@ -118,14 +107,8 @@ The database and authenticated subscription endpoint are prepared for Web Push. 
 | `WEB_ORIGIN` | Allowed credentialed CORS origins; comma-separated when needed |
 | `SESSION_COOKIE_NAME` | HTTP-only session cookie name |
 | `SESSION_TTL_DAYS` | Persistent session lifetime |
-| `EMAIL_VERIFICATION_TTL_MINUTES` | One-time email-confirmation lifetime |
 | `INVITATION_TTL_DAYS` | Family invitation lifetime |
-| `EMAILJS_SERVICE_ID` | EmailJS connected-service ID |
-| `EMAILJS_TEMPLATE_ID` | EmailJS action-email template ID |
-| `EMAILJS_PUBLIC_KEY` | EmailJS account public key, kept server-side here |
-| `EMAILJS_PRIVATE_KEY` | EmailJS private access token; never expose or commit it |
-| `EMAIL_FROM_NAME` | Sender name passed to the EmailJS template |
-| `DEV_AUTH_ENABLED` | Enables logged preview links and demo sign-in; development only |
+| `DEV_AUTH_ENABLED` | Enables demo sign-in; development only |
 | `NEXT_PUBLIC_API_URL` | Browser-visible API base URL; `/api` uses the recommended same-origin proxy |
 | `API_INTERNAL_URL` | Server-side API origin used by the Next.js rewrite |
 | `NEXT_PUBLIC_PUSH_ENABLED` | Keep `false` until push delivery is configured |

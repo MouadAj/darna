@@ -14,15 +14,6 @@ export class LoginDto {
   @IsString() @Length(8, 128) password: string;
 }
 
-export class VerifyEmailDto {
-  @IsString() @Length(32, 200) token: string;
-}
-
-export class ResendVerificationDto {
-  @IsEmail() email: string;
-  @IsOptional() @IsIn(locales) locale?: (typeof locales)[number];
-}
-
 export class DevLoginDto {
   @IsEmail() email: string;
 }

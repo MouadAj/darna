@@ -19,6 +19,6 @@ export function installRateLimits(server: Express, behindVercel = false) {
 
   server.use('/api', limiter(120));
   server.post('/api/auth/register', limiter(5));
-  server.post('/api/auth/resend-verification', limiter(3));
   server.post('/api/auth/login', limiter(8));
+  server.post('/api/invitations/accept', limiter(8));
 }

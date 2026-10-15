@@ -12,7 +12,7 @@ export class InvitationsController {
   constructor(private readonly invitations: InvitationsService, private readonly sessions: SessionService) {}
   @Post() create(@CurrentUser() user: AuthContext, @Body() dto: CreateInvitationDto) {
     if (!user.householdId || user.role !== 'OWNER') throw new ForbiddenException('Only the household owner can invite family');
-    return this.invitations.create(user.householdId, user.name, dto.name, dto.email, dto.locale ?? 'en');
+    return this.invitations.create(user.householdId, dto.name, dto.email, dto.locale ?? 'en');
   }
   @Public() @Get('preview/:token') preview(@Param('token') token: string) { return this.invitations.preview(token); }
   @Public() @Post('accept') @HttpCode(200)
@@ -21,9 +21,9 @@ export class InvitationsController {
     await this.sessions.create(result.userId, response);
     return {message: 'Welcome to your family home', preferredLocale: result.preferredLocale};
   }
-  @Post(':id/resend') resend(@CurrentUser() user: AuthContext, @Param('id') id: string) {
+  @Post(':id/link') refreshLink(@CurrentUser() user: AuthContext, @Param('id') id: string) {
     if (!user.householdId || user.role !== 'OWNER') throw new ForbiddenException('Only the household owner can manage invitations');
-    return this.invitations.resend(user.householdId, id, user.name);
+    return this.invitations.refreshLink(user.householdId, id, user.preferredLocale);
   }
   @Delete(':id') revoke(@CurrentUser() user: AuthContext, @Param('id') id: string) {
     if (!user.householdId || user.role !== 'OWNER') throw new ForbiddenException('Only the household owner can manage invitations');

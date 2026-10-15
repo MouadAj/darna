@@ -57,7 +57,7 @@
   "auth": {
     "registerEyebrow": "Créez votre foyer",
     "registerTitle": "Créons votre compte",
-    "registerIntro": "Confirmez d’abord votre e-mail, puis nommez votre foyer et invitez votre famille.",
+    "registerIntro": "Créez votre compte, puis nommez votre foyer et invitez votre famille.",
     "loginEyebrow": "Heureux de vous revoir",
     "loginTitle": "Connectez-vous à votre foyer",
     "loginIntro": "Utilisez l’e-mail et le mot de passe choisis pour HouseFamily.",
@@ -74,25 +74,10 @@
     "haveAccount": "Vous avez déjà un compte ?",
     "newHere": "Nouveau sur HouseFamily ?",
     "genericError": "Une erreur est survenue. Réessayez.",
-    "resend": "Renvoyer l’e-mail de confirmation",
-    "checkEyebrow": "Une dernière vérification",
-    "checkTitle": "Consultez votre e-mail",
-    "checkIntro": "Nous avons envoyé un lien de confirmation à {email}.",
-    "checkSpam": "Ouvrez le lien pour confirmer votre compte. Vérifiez aussi les courriers indésirables.",
-    "resent": "Un nouvel e-mail de confirmation a été envoyé.",
-    "openDevelopmentLink": "Ouvrir la confirmation de développement",
-    "backToLogin": "Retour à la connexion",
     "showPassword": "Afficher le mot de passe",
     "hidePassword": "Masquer le mot de passe",
     "loggingIn": "Connexion…",
-    "creatingAccount": "Création de votre compte…",
-    "resending": "Envoi de la confirmation…"
-  },
-  "verify": {
-    "title": "Confirmation de votre e-mail…",
-    "success": "E-mail confirmé. Vous êtes connecté.",
-    "invalid": "Ce lien de confirmation est invalide ou expiré.",
-    "login": "Aller à la connexion"
+    "creatingAccount": "Création de votre compte…"
   },
   "createHome": {
     "eyebrow": "Bienvenue chez vous",
@@ -186,14 +171,10 @@
     "inviteTitle": "Qui souhaitez-vous inviter ?",
     "name": "Son nom",
     "email": "Son e-mail",
-    "send": "Envoyer l’invitation",
-    "sent": "Invitation envoyée",
-    "resend": "Renvoyer",
     "cancelInvite": "Annuler l’invitation",
     "removeAccess": "Retirer l’accès",
     "removeTitle": "Retirer {name} ?",
     "removeBody": "Cette personne n’aura plus accès au foyer.",
-    "developmentLink": "Lien d’invitation de développement",
     "onlyOwner": "Seul le propriétaire peut gérer la famille.",
     "account": "Votre compte",
     "accountHint": "Langue et déconnexion sécurisée.",
@@ -202,7 +183,16 @@
     "fr": "Français",
     "ar": "العربية",
     "languageError": "Impossible de changer la langue. Réessayez.",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "createLink": "Créer le lien d’invitation",
+    "linkCreated": "Lien d’invitation prêt",
+    "newLink": "Nouveau lien",
+    "inviteHint": "Créez un lien privé et partagez-le vous-même avec ce membre de la famille.",
+    "shareLink": "Lien d’invitation",
+    "shareHint": "Partagez ce lien uniquement avec la personne invitée. Un nouveau lien remplace le précédent.",
+    "copyLink": "Copier le lien",
+    "copied": "Lien copié",
+    "copyError": "Copie automatique impossible. Sélectionnez le lien ci-dessus et copiez-le."
   },
   "activity": {
     "title": "Activité",
@@ -246,7 +236,7 @@
   "invite": {
     "hello": "Bonjour {name}",
     "title": "Vous êtes invité chez {household}",
-    "body": "Choisissez un mot de passe, puis rejoignez le foyer privé de votre famille.",
+    "body": "Choisissez un mot de passe pour rejoindre le foyer. Si vous avez déjà un compte, utilisez votre mot de passe actuel.",
     "password": "Choisir un mot de passe",
     "confirmPassword": "Confirmer le mot de passe",
     "accept": "Rejoindre le foyer",
