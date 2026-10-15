@@ -1,72 +1,79 @@
 # Deploy Darna on free plans
 
-The repository is https://github.com/MouadAj/darna. Use Vercel Hobby for the web app, Render Free for the API, Neon Free for PostgreSQL, and EmailJS Free for confirmation and invitation emails. Use the assigned `vercel.app` address. No paid database, disk, worker, or custom domain is required.
+Use two Vercel **Hobby** projects, Neon **Free** PostgreSQL, and EmailJS **Free**. The repository is https://github.com/MouadAj/darna. The web project is deployed at https://darna-ochre-eight.vercel.app; the API is a separate NestJS project. No paid plan or custom domain is required.
 
 This is a fresh online installation. Do not import the local database or run `db:seed` online. Local development data stays in `.postgres-data/`.
 
-## 1. Create the database
+## 1. Database
 
-In https://console.neon.tech, create a **Free** project named `darna`, preferably in Frankfurt near the API. Create/use an empty `darna` database. Copy both connection strings privately into Render's environment settings:
+Create an empty Neon Free project. The deployed project is named `darna`, with its initial `neondb` database, in AWS London. Save both SSL-enabled connection strings privately in the API project's Vercel settings:
 
-- `DATABASE_URL`: the pooled connection string (hostname contains `-pooler`), with SSL enabled.
-- `DIRECT_URL`: the direct connection string with pooling disabled, with SSL enabled.
+- `DATABASE_URL`: the pooled endpoint (hostname contains `-pooler`).
+- `DIRECT_URL`: the direct endpoint with pooling disabled.
 
-The API uses the pooled connection at runtime. Prisma CLI uses `DIRECT_URL` for migrations, falling back to `DATABASE_URL` for local development. Production startup applies committed migrations automatically and never seeds demo users.
+The API uses the pooled connection at runtime. Prisma CLI uses `DIRECT_URL` for migrations, falling back to `DATABASE_URL` locally. The API deployment build applies committed migrations and never seeds demo users.
 
-## 2. Configure email
+## 2. Email
 
-Create/sign in at https://dashboard.emailjs.com on the **Free** plan. Follow the EmailJS template instructions in the [README](../README.md#configure-emailjs). Configure server-side REST/private-key access for the connected service. Keep all four EmailJS values exclusively in Render; none belongs in Vercel or browser code.
+Use an EmailJS Free account and connect a sending service. Follow the [README template instructions](../README.md#configure-emailjs). Enable server-side REST/private-key access. Put all four EmailJS values exclusively in the API project's environment settings.
 
-Email delivery is required for the real account-registration flow. Do not enable development authentication to bypass email online.
+Real registration requires confirmation-email delivery. Production blocks development sign-in and preview links, even if the development flag is accidentally enabled.
 
-## 3. Create the API
+## 3. API project on Vercel
 
-Open https://dashboard.render.com, connect the GitHub repository, and create a Blueprint from root `render.yaml`. Review that `darna-api` uses **Free** before creating it. The Blueprint explicitly sets Node 24, the build/start commands, health check, production mode, and disabled demo authentication.
+Import `MouadAj/darna` into a personal Hobby project named `darna-api` (or an available variation).
 
-Supply the prompted environment variables:
+- Root Directory: `apps/api`.
+- Framework: NestJS.
+- Node.js: 24.x.
+- Include files outside the Root Directory for the shared workspace and lockfile.
+- Use the install/build commands in `apps/api/vercel.json`.
+- Enable environment variables for **Production**; do not share production database credentials with untrusted preview branches.
 
 | Variable | Value |
 | --- | --- |
 | `DATABASE_URL` | Neon pooled connection string |
 | `DIRECT_URL` | Neon direct connection string |
-| `WEB_ORIGIN` | Exact canonical HTTPS Vercel website origin, with no trailing slash |
+| `WEB_ORIGIN` | `https://darna-ochre-eight.vercel.app` (exact canonical web origin) |
+| `DEV_AUTH_ENABLED` | `false` |
+| `NODE_ENV` | `production` |
+| `EMAIL_FROM_NAME` | `Darna` |
 | `EMAILJS_SERVICE_ID` | Connected EmailJS service |
-| `EMAILJS_TEMPLATE_ID` | Action-email template |
+| `EMAILJS_TEMPLATE_ID` | Confirmation/invitation template |
 | `EMAILJS_PUBLIC_KEY` | EmailJS public key, kept server-side |
 | `EMAILJS_PRIVATE_KEY` | EmailJS private key |
 
-If Vercel has not assigned the website address yet, update `WEB_ORIGIN` immediately after step 4 and redeploy the API before registering an account. Email links use this origin. Do not add wildcard preview origins.
+Deploy and save the actual canonical API origin. Its `/api/health` endpoint must return HTTP 200 with `status: "ok"`. The standard Vercel NestJS integration supports the existing `src/main.ts` entrypoint.
 
-Copy the actual assigned Render origin (for example `https://darna-api-xxxx.onrender.com`). `/api/health` must return HTTP 200 with `status: "ok"`. Render supplies `PORT`; the API listens on it automatically.
+## 4. Website project on Vercel
 
-## 4. Create the website
+The `darna` project uses Root Directory `apps/web`, the Next.js preset, Node 24.x, and `apps/web/vercel.json`. Include files outside the Root Directory for the shared workspace and root lockfile.
 
-In https://vercel.com/new, import `MouadAj/darna` into a personal **Hobby** project named `darna` (or an available variation).
+Set these variables and **redeploy** the web project:
 
-- Framework: Next.js.
-- Root Directory: `apps/web`.
-- Enable **Include source files outside of the Root Directory in the Build Step** for the shared workspace and root lockfile.
-- Node.js: 24.x (also specified in the web package).
-- Keep the install/build commands from `apps/web/vercel.json`.
-- Set `API_INTERNAL_URL` to the assigned Render origin, without `/api` or a trailing slash.
-- Set `NEXT_PUBLIC_API_URL=/api`.
-- Set `NEXT_PUBLIC_PUSH_ENABLED=false`; leave `NEXT_PUBLIC_VAPID_PUBLIC_KEY` unset.
+| Variable | Value |
+| --- | --- |
+| `API_INTERNAL_URL` | The canonical API project origin, without `/api` or a trailing slash |
+| `NEXT_PUBLIC_API_URL` | `/api` |
+| `NEXT_PUBLIC_PUSH_ENABLED` | `false` |
 
-Deploy. Copy the canonical production website origin into Render's `WEB_ORIGIN` and restart/redeploy the API. Changes to the rewrite destination or public variables require a new web deployment.
-
-The browser calls the Vercel `/api` rewrite. Keep this same-origin arrangement so secure HTTP-only session cookies work without cross-site cookie exceptions. Never put Neon or EmailJS credentials in Vercel.
+Leave `NEXT_PUBLIC_VAPID_PUBLIC_KEY` unset until push delivery is configured. Never put Neon or EmailJS credentials in the web project. The browser calls the same-origin `/api` proxy so secure HTTP-only session cookies remain on the website origin. Keep the API's production health endpoint publicly reachable by that proxy; preview deployments may remain protected.
 
 ## 5. Verify before sharing
 
-1. Open `/api/health` through the **Vercel** URL to verify the complete proxy path.
-2. Open `/en/welcome`, `/fr/welcome`, and `/ar/welcome`; production must not show the demo button or an unconfigured notification prompt.
-3. Register your own real account, receive the confirmation email, confirm it, log in, and create the family home. Confirm the email link uses the canonical website origin.
-4. Add a needed item, open Shopping with no active trip, start/complete a trip, then reload and confirm data remains.
-5. Log out and log back in. Confirm anonymous requests cannot read household data. Check a narrow mobile viewport and a desktop viewport.
-6. Invite a family member and confirm their invitation email and acceptance flow.
+1. Open `/api/health` through the **website** URL to verify the complete proxy path.
+2. Check `/en/welcome`, `/fr/welcome`, and `/ar/welcome`; production must hide the demo login and unconfigured push prompt.
+3. Register a real account, receive the confirmation email, confirm it, log in, and create the family home. Check the confirmation URL uses the canonical website origin.
+4. Add a needed item, open Shopping without an active trip, start/complete a trip, then reload and confirm persistence.
+5. Log out and log back in. Confirm anonymous requests cannot read household data. Check mobile and desktop layouts.
+6. Invite a family member and verify email delivery and acceptance.
+
+## Optional Render hosting
+
+`render.yaml` remains available as an alternative API configuration. Render requested card verification for this account, including its manual Free service flow, so the active deployment uses Vercel for the API. No Render service or paid resources were created. If using Render later, use **Free**, supply the API variables above plus `NODE_VERSION=24.x`, keep the repository root as the build directory, use the Blueprint's commands, and point the website proxy at the Render origin. Render's Free service sleeps after inactivity.
 
 ## Free-plan limits
 
-Free plans have usage limits and can change. Vercel Hobby is for personal/noncommercial use. Render Free sleeps after inactivity, so the first API request may be slow or require a retry while it wakes. Neon also suspends idle compute. EmailJS Free currently allows 200 email requests per month. A free service is not a promise of permanent unlimited hosting; stay within the free plans and review any upgrade prompt.
+Vercel Hobby is for personal/noncommercial use and has function, build, and transfer quotas. Neon Free suspends idle compute and has compute/storage limits. EmailJS Free currently includes 200 email requests per month. Stay within the free plans and review any upgrade prompt; free hosting is not unlimited or guaranteed forever.
 
-Official references: [Vercel Hobby](https://vercel.com/docs/plans/hobby), [Vercel monorepos](https://vercel.com/docs/monorepos), [Render Free](https://render.com/docs/free), [Render Blueprint specification](https://render.com/docs/blueprint-spec), [Neon plans](https://neon.com/pricing), [Neon with Prisma](https://neon.com/docs/guides/prisma), and [EmailJS plans](https://www.emailjs.com/pricing/).
+Official references: [Vercel Hobby](https://vercel.com/docs/plans/hobby), [NestJS on Vercel](https://vercel.com/docs/frameworks/backend/nestjs), [Vercel monorepos](https://vercel.com/docs/monorepos), [Neon plans](https://neon.com/pricing), [EmailJS plans](https://www.emailjs.com/pricing/), and [Render Free](https://render.com/docs/free).
