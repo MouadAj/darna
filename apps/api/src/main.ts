@@ -15,7 +15,13 @@ async function bootstrap() {
   const config = app.get(ConfigService);
 
   app.setGlobalPrefix('api');
-  app.use(helmet({contentSecurityPolicy: false}));
+  // Isolated hosting compilers can expose Helmet's default as a module namespace.
+  // Normalize that interop boundary and verify the factory before installing it.
+  const helmetExport: unknown = helmet;
+  const helmetFactory = typeof helmetExport === 'object' && helmetExport !== null && 'default' in helmetExport
+    ? helmetExport.default : helmetExport;
+  if (typeof helmetFactory !== 'function') throw new TypeError('Helmet middleware factory is unavailable');
+  app.use(helmetFactory({contentSecurityPolicy: false}));
   app.use(cookieParser());
   app.enableCors({
     origin: config.getOrThrow<string>('WEB_ORIGIN').split(',').map((origin) => origin.trim()),
