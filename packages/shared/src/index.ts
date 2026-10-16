@@ -12,10 +12,16 @@ export type HouseholdRole = (typeof householdRoles)[number];
 export type IssueStatus = (typeof issueStatuses)[number];
 export type Locale = (typeof locales)[number];
 
+export const itemDetailLimits = {quantity: 60, notes: 500} as const;
+export const normalizeItemDetail = (value: unknown): unknown => typeof value === 'string' ? value.trim() || null : value;
+const detailField = (limit: number) => z.preprocess(normalizeItemDetail, z.string().max(limit).nullable().optional());
+export const itemDetailsSchema = z.object({quantity: detailField(itemDetailLimits.quantity), notes: detailField(itemDetailLimits.notes)});
+
 export const updateItemSchema = z.object({
   status: z.enum(itemStatuses).optional(),
   priority: z.enum(priorities).optional(),
   usual: z.boolean().optional(),
+  ...itemDetailsSchema.shape,
 });
 
 export interface SessionUser {
@@ -32,6 +38,8 @@ export interface ItemSummary {
   id: string;
   name: string;
   visualKey: string;
+  quantity: string | null;
+  notes: string | null;
   status: ItemStatus;
   priority: Priority;
   usual: boolean;

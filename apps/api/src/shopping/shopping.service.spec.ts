@@ -1,6 +1,12 @@
 import {ShoppingService} from './shopping.service.js';
 
 describe('ShoppingService completion', () => {
+  it('reads current item details in active trips', async () => {
+    const prisma = {shoppingTrip: {findFirst: jest.fn().mockResolvedValue({items: [{item: {quantity: '500 g', notes: 'Fresh'}}]})}};
+    const result = await new ShoppingService(prisma as never).active('household-a');
+    expect(result!.items[0].item).toEqual({quantity: '500 g', notes: 'Fresh'});
+    expect(prisma.shoppingTrip.findFirst).toHaveBeenCalledWith(expect.objectContaining({include: expect.objectContaining({items: expect.objectContaining({include: {item: {select: expect.objectContaining({quantity: true, notes: true})}}})})}));
+  });
   it('marks only purchased items available and keeps the household predicate', async () => {
     const tx = {item: {updateMany: jest.fn()}, shoppingTrip: {update: jest.fn().mockResolvedValue({id: 'trip'})}, activity: {create: jest.fn()}};
     const prisma = {

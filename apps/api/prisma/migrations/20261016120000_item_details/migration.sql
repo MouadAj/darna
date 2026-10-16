@@ -1,0 +1,2 @@
+ALTER TABLE "Item" ADD COLUMN "quantity" VARCHAR(60),
+ADD COLUMN "notes" VARCHAR(500);

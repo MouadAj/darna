@@ -1,15 +1,19 @@
 import {Transform} from 'class-transformer';
-import {IsBoolean, IsIn, IsOptional, IsString, Length} from 'class-validator';
-import {itemStatuses, priorities} from '@housefamily/shared';
+import {IsBoolean, IsIn, IsOptional, IsString, Length, MaxLength} from 'class-validator';
+import {itemDetailLimits, itemStatuses, normalizeItemDetail, priorities} from '@housefamily/shared';
 
-export class CreateItemDto {
+export class ItemDetailsDto {
+  @IsOptional() @Transform(({value}) => normalizeItemDetail(value)) @IsString() @MaxLength(itemDetailLimits.quantity) quantity?: string | null;
+  @IsOptional() @Transform(({value}) => normalizeItemDetail(value)) @IsString() @MaxLength(itemDetailLimits.notes) notes?: string | null;
+}
+export class CreateItemDto extends ItemDetailsDto {
   @IsString() @Length(1, 120) name: string;
   @IsString() @Length(1, 60) visualKey: string;
   @IsOptional() @IsString() categoryId?: string;
   @IsOptional() @IsIn(priorities) priority?: (typeof priorities)[number];
   @IsOptional() @IsBoolean() usual?: boolean;
 }
-export class UpdateItemDto {
+export class UpdateItemDto extends ItemDetailsDto {
   @IsOptional() @IsIn(itemStatuses) status?: (typeof itemStatuses)[number];
   @IsOptional() @IsIn(priorities) priority?: (typeof priorities)[number];
   @IsOptional() @IsBoolean() usual?: boolean;

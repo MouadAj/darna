@@ -4,7 +4,7 @@ import {PrismaService} from '../prisma/prisma.service.js';
 import type {CreateItemDto, ListItemsQuery, UpdateItemDto} from './dto.js';
 
 const itemSelect = {
-  id: true, name: true, visualKey: true, status: true, priority: true, usual: true, updatedAt: true,
+  id: true, name: true, visualKey: true, quantity: true, notes: true, status: true, priority: true, usual: true, updatedAt: true,
   category: {select: {id: true, name: true, key: true}},
   updatedBy: {select: {id: true, name: true}},
 } satisfies Prisma.ItemSelect;
@@ -32,7 +32,7 @@ export class ItemsService {
       if (!category) throw new BadRequestException('Choose a category from your family home');
     }
     const item = await this.prisma.item.create({
-      data: {householdId, createdById: userId, updatedById: userId, name: dto.name.trim(), visualKey: dto.visualKey, categoryId: dto.categoryId, priority: dto.priority ?? 'NORMAL', usual: dto.usual ?? false, status: 'NEEDED'},
+      data: {householdId, createdById: userId, updatedById: userId, name: dto.name.trim(), visualKey: dto.visualKey, quantity: dto.quantity, notes: dto.notes, categoryId: dto.categoryId, priority: dto.priority ?? 'NORMAL', usual: dto.usual ?? false, status: 'NEEDED'},
       select: itemSelect,
     });
     await this.prisma.activity.create({data: {householdId, actorId: userId, type: 'ITEM_NEEDED', subjectName: item.name}});

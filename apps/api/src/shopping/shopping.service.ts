@@ -3,7 +3,7 @@ import {PrismaService} from '../prisma/prisma.service.js';
 
 const tripInclude = {
   shopper: {select: {id: true, name: true}},
-  items: {orderBy: {item: {name: 'asc'}}, include: {item: {select: {id: true, name: true, visualKey: true, priority: true, status: true}}}},
+  items: {orderBy: {item: {name: 'asc'}}, include: {item: {select: {id: true, name: true, visualKey: true, quantity: true, notes: true, priority: true, status: true}}}},
 } as const;
 
 @Injectable()

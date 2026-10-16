@@ -182,6 +182,8 @@ model Item {
   categoryId  String?    @db.Uuid
   name        String     @db.VarChar(120)
   visualKey   String     @db.VarChar(60)
+  quantity    String?    @db.VarChar(60)
+  notes       String?    @db.VarChar(500)
   status      ItemStatus @default(AVAILABLE)
   priority    Priority   @default(NORMAL)
   usual       Boolean    @default(false)
