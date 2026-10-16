@@ -13,7 +13,7 @@ const mocks=vi.hoisted(()=>({api:vi.fn(),replace:vi.fn(),push:vi.fn(),search:'',
 vi.mock('next/navigation',()=>({useParams:()=>({locale:'en'}),usePathname:()=>mocks.pathname,useSearchParams:()=>new URLSearchParams(mocks.search),useRouter:()=>({replace:mocks.replace,push:mocks.push})}));
 vi.mock('@/lib/api',async importOriginal=>({...await importOriginal<typeof import('@/lib/api')>(),api:mocks.api}));
 const me:SessionUser={id:'user',name:'Mouad',email:'demo@example.test',householdId:'home',householdName:'Family',preferredLocale:'en',role:'OWNER'};
-const item=(id:string,status:Item['status'],category='food',usual=false):Item=>({id,name:id,visualKey:'custom',status,priority:'NORMAL',usual,updatedAt:'2026-10-15T10:00:00Z',updatedBy:{id:'user',name:'Mouad'},category:{id:category,name:category,key:category}});
+const item=(id:string,status:Item['status'],category='food',usual=false):Item=>({id,name:id,visualKey:'custom',status,priority:'NORMAL',usual,quantity:null,notes:null,updatedAt:'2026-10-15T10:00:00Z',updatedBy:{id:'user',name:'Mouad'},category:{id:category,name:category,key:category}});
 const entries=[item('Milk','AVAILABLE'),item('Water','LOW','drinks'),item('Eggs','NEEDED')];
 const categories=[{id:'food',name:'Food',key:'food'},{id:'drinks',name:'Drinks',key:'drinks'}];
 beforeEach(()=>{
@@ -140,7 +140,7 @@ describe('custom item icons',()=>{
     expect(screen.getByRole('radio',{name:'Basket'})).not.toBeChecked();
     fireEvent.click(within(screen.getByRole('dialog')).getByRole('button',{name:'Add'}));
     await waitFor(()=>expect(close).toHaveBeenCalledOnce());
-    expect(mocks.api).toHaveBeenCalledWith('/items',expect.objectContaining({method:'POST',body:JSON.stringify({name:'Vitamins',visualKey:'medicine',categoryId:'food',priority:'URGENT'})}));
+    expect(mocks.api).toHaveBeenCalledWith('/items',expect.objectContaining({method:'POST',body:JSON.stringify({name:'Vitamins',visualKey:'medicine',categoryId:'food',priority:'URGENT',quantity:'',notes:''})}));
   });
 
   it('uses the default basket when the picker is left unchanged',async()=>{

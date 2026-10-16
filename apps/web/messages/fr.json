@@ -329,5 +329,17 @@
       "medicine": "Médicament",
       "home": "Maison"
     }
+  },
+  "itemDetails": {
+    "section": "Quantité et note",
+    "quantity": "Quantité",
+    "note": "Note",
+    "optional": "(facultatif)",
+    "hint": "La quantité à acheter et les précisions utiles. Conservées pour vos prochains achats.",
+    "quantityPlaceholder": "Ex. 2 bouteilles ou 500 g",
+    "notePlaceholder": "Ex. Sans sucre, la marque habituelle",
+    "edit": "Modifier les détails",
+    "editTitle": "Modifier les détails · {name}",
+    "saved": "Quantité et note enregistrées"
   }
 }

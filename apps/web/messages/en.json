@@ -329,5 +329,17 @@
       "medicine": "Medicine",
       "home": "Home"
     }
+  },
+  "itemDetails": {
+    "section": "Quantity & note",
+    "quantity": "Quantity",
+    "note": "Note",
+    "optional": "(optional)",
+    "hint": "How much to buy and anything to remember. Saved for future purchases.",
+    "quantityPlaceholder": "e.g. 2 bottles or 500 g",
+    "notePlaceholder": "e.g. Unsweetened, the usual brand",
+    "edit": "Edit details",
+    "editTitle": "Edit details · {name}",
+    "saved": "Quantity and note saved"
   }
 }

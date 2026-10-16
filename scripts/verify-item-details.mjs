@@ -1,11 +1,12 @@
 // Run after build:api and db:migrate. All verification records roll back.
 import assert from 'node:assert/strict';
+import {ConfigService} from '@nestjs/config';
 import {config} from 'dotenv';
 import {PrismaService} from '../apps/api/dist/prisma/prisma.service.js';
 import {ItemsService} from '../apps/api/dist/items/items.service.js';
 import {ShoppingService} from '../apps/api/dist/shopping/shopping.service.js';
 config({quiet: true});
-const prisma = new PrismaService();
+const prisma = new PrismaService(new ConfigService());
 const rollback = new Error('verification rollback');
 try {
   await prisma.$transaction(async tx => {
