@@ -543,3 +543,4 @@ h2, h3 {font-weight:600}
 .list-workspace .shopping-row .item-row-main {display:flex;flex-direction:column;align-items:flex-start;gap:5px}
 @media(min-width:700px) {.shopping-edit span {display:inline}.shopping-edit {padding-inline:12px}}
 @media(max-width:380px) {.shopping-row {gap:8px;padding-inline:8px}.shopping-row>.item-visual {display:none}.shopping-edit {padding:7px}}
+[lang="ar"] .item-details-fields :is(.input,.textarea):placeholder-shown {direction:rtl;text-align:right}
