@@ -298,5 +298,36 @@
     "standaloneBenefit": "Your own Darna icon, with an app-style window on supported devices.",
     "connection": "An internet connection is needed to load and update your private household data.",
     "browserHint": "Opening this link inside another app? Open it in Chrome on Android or Safari on iPhone to install."
+  },
+  "itemIcons": {
+    "label": "Icon",
+    "choose": "Choose icon",
+    "hide": "Hide icons",
+    "options": {
+      "custom": "Basket",
+      "food": "Fruit",
+      "bread": "Bread",
+      "milk": "Milk",
+      "eggs": "Eggs",
+      "meat": "Meat",
+      "oil": "Cooking",
+      "flour": "Grains",
+      "pasta": "Pasta",
+      "coffee": "Coffee",
+      "tea": "Tea",
+      "water": "Water",
+      "soap": "Soap",
+      "shampoo": "Shower",
+      "detergent": "Laundry",
+      "garbage-bags": "Waste",
+      "floor-cleaner": "Cleaner",
+      "light-bulb": "Light",
+      "batteries": "Battery",
+      "gas": "Gas",
+      "tap": "Tap",
+      "fridge": "Fridge",
+      "medicine": "Medicine",
+      "home": "Home"
+    }
   }
 }

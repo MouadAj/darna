@@ -122,6 +122,77 @@ describe('item selection',()=>{
   });
 });
 
+describe('custom item icons',()=>{
+  const openCustom=()=>fireEvent.click(screen.getByRole('button',{name:'Add something else'}));
+  const choose=(name:string)=>{
+    fireEvent.click(screen.getByRole('button',{name:'Choose icon'}));
+    fireEvent.click(screen.getByRole('radio',{name}));
+  };
+
+  it('saves the chosen icon with the new item name, category, and priority',async()=>{
+    const close=vi.fn();renderWithProviders(<AddNeedSheet open onClose={close}/>);openCustom();
+    fireEvent.change(screen.getByLabelText('What is it?'),{target:{value:' Vitamins '}});
+    await screen.findByRole('option',{name:'Food'});
+    fireEvent.change(screen.getByLabelText('Category'),{target:{value:'food'}});
+    fireEvent.click(screen.getByRole('button',{name:'Urgent'}));choose('Medicine');
+    expect(screen.getAllByRole('radio')).toHaveLength(24);
+    expect(screen.getByRole('radio',{name:'Medicine'})).toBeChecked();
+    expect(screen.getByRole('radio',{name:'Basket'})).not.toBeChecked();
+    fireEvent.click(within(screen.getByRole('dialog')).getByRole('button',{name:'Add'}));
+    await waitFor(()=>expect(close).toHaveBeenCalledOnce());
+    expect(mocks.api).toHaveBeenCalledWith('/items',expect.objectContaining({method:'POST',body:JSON.stringify({name:'Vitamins',visualKey:'medicine',categoryId:'food',priority:'URGENT'})}));
+  });
+
+  it('uses the default basket when the picker is left unchanged',async()=>{
+    const close=vi.fn();renderWithProviders(<AddNeedSheet open onClose={close}/>);openCustom();
+    fireEvent.change(screen.getByLabelText('What is it?'),{target:{value:'Cat food'}});
+    expect(screen.queryByRole('radio')).not.toBeInTheDocument();
+    fireEvent.click(within(screen.getByRole('dialog')).getByRole('button',{name:'Add'}));
+    await waitFor(()=>expect(close).toHaveBeenCalledOnce());
+    const request=mocks.api.mock.calls.find(([,options])=>options?.method==='POST');
+    expect(JSON.parse(request![1].body).visualKey).toBe('custom');
+  });
+
+  it('preserves the icon and draft after a failure and Back navigation',async()=>{
+    mocks.api.mockImplementation((path:string,options?:RequestInit)=>options?.method?Promise.reject(new Error('offline')):Promise.resolve(path==='/items'?entries:categories));
+    renderWithProviders(<AddNeedSheet open onClose={()=>{}}/>);openCustom();choose('Coffee');
+    fireEvent.change(screen.getByLabelText('What is it?'),{target:{value:'Coffee filters'}});
+    fireEvent.click(within(screen.getByRole('dialog')).getByRole('button',{name:'Add'}));
+    expect(await screen.findByRole('alert')).toBeVisible();
+    expect(screen.getByRole('radio',{name:'Coffee'})).toBeChecked();
+    fireEvent.click(screen.getByRole('button',{name:'Back'}));openCustom();
+    expect(screen.getByLabelText('What is it?')).toHaveValue('Coffee filters');
+    fireEvent.click(screen.getByRole('button',{name:'Choose icon'}));
+    expect(screen.getByRole('radio',{name:'Coffee'})).toBeChecked();
+    mocks.api.mockImplementation((path:string,options?:RequestInit)=>Promise.resolve(options?.method?{id:'created'}:path==='/items'?entries:categories));
+    fireEvent.click(within(screen.getByRole('dialog')).getByRole('button',{name:'Add'}));
+    await waitFor(()=>expect(mocks.api.mock.calls.filter(([,options])=>options?.method==='POST')).toHaveLength(2));
+    const requests=mocks.api.mock.calls.filter(([,options])=>options?.method==='POST');
+    expect(requests.every(([,options])=>JSON.parse(options.body).visualKey==='coffee')).toBe(true);
+  });
+
+  it('resets the icon after closing and reopening the sheet',()=>{
+    const view=renderWithProviders(<AddNeedSheet open onClose={()=>{}}/>);openCustom();choose('Light');
+    view.rerender(<AddNeedSheet open={false} onClose={()=>{}}/>);view.rerender(<AddNeedSheet open onClose={()=>{}}/>);openCustom();
+    fireEvent.click(screen.getByRole('button',{name:'Choose icon'}));
+    expect(screen.getByRole('radio',{name:'Basket'})).toBeChecked();
+    expect(screen.getByRole('radio',{name:'Light'})).not.toBeChecked();
+  });
+
+  it('disables icon changes while the item is being saved',async()=>{
+    let resolve!:(value:unknown)=>void;
+    mocks.api.mockImplementation((path:string,options?:RequestInit)=>options?.method?new Promise(yes=>{resolve=yes;}):Promise.resolve(path==='/items'?entries:categories));
+    renderWithProviders(<AddNeedSheet open onClose={()=>{}}/>);openCustom();choose('Water');
+    fireEvent.change(screen.getByLabelText('What is it?'),{target:{value:'Sparkling water'}});
+    fireEvent.click(within(screen.getByRole('dialog')).getByRole('button',{name:'Add'}));
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Hide icons'})).toBeDisabled());
+    expect(screen.getByRole('radio',{name:'Water'})).toBeDisabled();
+    expect(screen.getByRole('radio',{name:'Basket'})).toBeDisabled();
+    resolve({id:'created'});
+    await waitFor(()=>expect(screen.getByRole('button',{name:'Hide icons'})).toBeEnabled());
+  });
+});
+
 describe('shopping mutation failures',()=>{
   const trip=(purchased:boolean)=>({id:'trip',status:'ACTIVE',shopper:{id:'user',name:'Mouad'},items:[{id:'trip-item',purchased,item:entries[1]}]});
   it('keeps an unchecked item visible when marking it purchased fails',async()=>{

@@ -7,7 +7,8 @@ import type {Priority} from '@housefamily/shared';
 import {api} from '@/lib/api';
 import {PendingLabel} from './loading';
 import type {Category, Item} from '@/lib/types';
-import {ItemVisual} from './item-visual';
+import {ItemVisual, type SelectableItemIcon} from './item-visual';
+import {ItemIconPicker} from './item-icon-picker';
 import {ActionError, EmptyState, ErrorState, LoadingState, Sheet} from './ui';
 import {useToast} from './toast';
 
@@ -22,12 +23,13 @@ function AddNeedContent({onClose}: {onClose: () => void}) {
   const [selected,setSelected]=useState<Item|null>(null); const [priority,setPriority]=useState<Priority>('NORMAL');
   const searchRef=useRef<HTMLInputElement>(null); const backRef=useRef<HTMLButtonElement>(null); const previousDetails=useRef(false);
   const [custom,setCustom]=useState(false); const [customName,setCustomName]=useState(''); const [customCategory,setCustomCategory]=useState('');
+  const [customIcon,setCustomIcon]=useState<SelectableItemIcon>('custom');
   const inDetails=Boolean(selected)||custom;
   useEffect(()=>{if(inDetails)backRef.current?.focus();else if(previousDetails.current)searchRef.current?.focus();previousDetails.current=inDetails;},[inDetails]);
   const items=useQuery({queryKey:['items'],queryFn:()=>api<Item[]>('/items')});
   const categories=useQuery({queryKey:['categories'],queryFn:()=>api<Category[]>('/categories')});
   const mutation=useMutation({mutationFn:async()=>{
-    if(custom) return api('/items',{method:'POST',body:JSON.stringify({name:customName.trim(),visualKey:'custom',categoryId:customCategory||undefined,priority})});
+    if(custom) return api('/items',{method:'POST',body:JSON.stringify({name:customName.trim(),visualKey:customIcon,categoryId:customCategory||undefined,priority})});
     if(!selected) throw new Error('Choose an item');
     return api(`/items/${selected.id}`,{method:'PATCH',body:JSON.stringify({status:'NEEDED',priority})});
   },onSuccess:()=>{
@@ -44,6 +46,7 @@ function AddNeedContent({onClose}: {onClose: () => void}) {
       <button type="button" className="back-link" ref={backRef} disabled={mutation.isPending} onClick={back}><ArrowLeft aria-hidden="true"/>{common('back')}</button>
       {selected&&<div className="selected-item"><ItemVisual visualKey={selected.visualKey} size="lg"/><h3>{selected.name}</h3></div>}
       {custom&&<><div className="field"><label htmlFor="custom-name">{t('itemName')}</label><input className="input" id="custom-name" required maxLength={120} value={customName} disabled={mutation.isPending} onChange={event=>setCustomName(event.target.value)} placeholder={t('itemPlaceholder')}/></div><div className="field"><label htmlFor="custom-category">{t('category')}</label><select id="custom-category" className="select" value={customCategory} disabled={mutation.isPending} onChange={event=>setCustomCategory(event.target.value)}><option value="">{t('other')}</option>{categories.data?.map(entry=><option key={entry.id} value={entry.id}>{entry.name}</option>)}</select></div></>}
+      {custom&&<ItemIconPicker value={customIcon} onChange={setCustomIcon} disabled={mutation.isPending}/>}
       <p className="field-label" id="priority-label">{p('label')}</p><div className="priority-options" role="group" aria-labelledby="priority-label">{(['NORMAL','SOON','URGENT'] as Priority[]).map(value=><button type="button" key={value} className={`chip ${priority===value?'active':''}`} aria-pressed={priority===value} disabled={mutation.isPending} onClick={()=>setPriority(value)}>{p(value)}</button>)}</div>
       {mutation.isError&&<ActionError retry={()=>mutation.mutate()} pending={mutation.isPending}/>}
       <button type="submit" className="button full" style={{marginTop:20}} disabled={mutation.isPending||(custom&&!customName.trim())}><PendingLabel pending={mutation.isPending}>{mutation.isPending?common('saving'):common('add')}</PendingLabel></button>

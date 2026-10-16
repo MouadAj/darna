@@ -298,5 +298,36 @@
     "standaloneBenefit": "Votre icône Darna et une fenêtre d’application sur les appareils compatibles.",
     "connection": "Une connexion internet est nécessaire pour consulter et modifier les données privées de votre maison.",
     "browserHint": "Ce lien est ouvert dans une autre application ? Utilisez Chrome sur Android ou Safari sur iPhone pour installer Darna."
+  },
+  "itemIcons": {
+    "label": "Icône",
+    "choose": "Choisir une icône",
+    "hide": "Masquer les icônes",
+    "options": {
+      "custom": "Panier",
+      "food": "Fruits",
+      "bread": "Pain",
+      "milk": "Lait",
+      "eggs": "Œufs",
+      "meat": "Viande",
+      "oil": "Cuisine",
+      "flour": "Céréales",
+      "pasta": "Pâtes",
+      "coffee": "Café",
+      "tea": "Thé",
+      "water": "Eau",
+      "soap": "Savon",
+      "shampoo": "Douche",
+      "detergent": "Lessive",
+      "garbage-bags": "Déchets",
+      "floor-cleaner": "Nettoyant",
+      "light-bulb": "Lumière",
+      "batteries": "Pile",
+      "gas": "Gaz",
+      "tap": "Robinet",
+      "fridge": "Frigo",
+      "medicine": "Médicament",
+      "home": "Maison"
+    }
   }
 }
