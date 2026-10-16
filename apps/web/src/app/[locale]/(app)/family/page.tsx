@@ -8,6 +8,7 @@ import {api} from '@/lib/api';
 import {PageSkeleton, PendingLabel, RefreshIndicator} from '@/components/loading';
 import type {Family, SessionUser} from '@/lib/types';
 import {useToast} from '@/components/toast';
+import {InstallLink} from '@/components/install-page';
 import {ActionError, ConfirmDialog, ErrorState, PageHeader, Sheet} from '@/components/ui';
 import type {Locale} from '@housefamily/shared';
 
@@ -29,7 +30,7 @@ function FamilyContent(){
     {refreshLink.isError&&<ActionError retry={()=>refreshLink.mutate(refreshLink.variables!)}/ >}{cancel.isError&&<ActionError retry={()=>cancel.mutate(cancel.variables!)}/ >}
     {invitationUrl&&!inviteOpen&&<InvitationLink key={invitationUrl} url={invitationUrl}/>}
     {!isOwner&&<p className="form-hint">{t('onlyOwner')}</p>}
-    </div><section className="account-section" aria-labelledby="account-title"><div className="account-heading"><span><Languages aria-hidden="true"/></span><div><h2 id="account-title">{t('account')}</h2><p>{t('accountHint')}</p></div></div><div className="account-setting"><p className="field-label">{t('language')}</p><div className="language-switcher" aria-label={t('language')}>{(['en','fr','ar'] as Locale[]).map(value=><button type="button" key={value} className={locale===value?'active':''} aria-pressed={locale===value} disabled={language.isPending} onClick={()=>language.mutate(value)}>{t(value)}</button>)}</div>{language.isError&&<p className="field-error" role="alert">{t('languageError')}</p>}</div><button className="button secondary full account-logout" disabled={logout.isPending} onClick={()=>logout.mutate()}><LogOut aria-hidden="true"/><PendingLabel pending={logout.isPending}>{logout.isPending?common('working'):t('logout')}</PendingLabel></button>{logout.isError&&<ActionError retry={()=>logout.mutate()}/ >}</section>
+    </div><section className="account-section" aria-labelledby="account-title"><div className="account-heading"><span><Languages aria-hidden="true"/></span><div><h2 id="account-title">{t('account')}</h2><p>{t('accountHint')}</p></div></div><div className="account-setting"><p className="field-label">{t('language')}</p><div className="language-switcher" aria-label={t('language')}>{(['en','fr','ar'] as Locale[]).map(value=><button type="button" key={value} className={locale===value?'active':''} aria-pressed={locale===value} disabled={language.isPending} onClick={()=>language.mutate(value)}>{t(value)}</button>)}</div>{language.isError&&<p className="field-error" role="alert">{t('languageError')}</p>}</div><InstallLink className="account-install"/><button className="button secondary full account-logout" disabled={logout.isPending} onClick={()=>logout.mutate()}><LogOut aria-hidden="true"/><PendingLabel pending={logout.isPending}>{logout.isPending?common('working'):t('logout')}</PendingLabel></button>{logout.isError&&<ActionError retry={()=>logout.mutate()}/ >}</section>
     </div><Sheet open={inviteOpen} onClose={close} pending={invite.isPending} title={t('inviteTitle')}>
       {invitationUrl?<><InvitationLink key={invitationUrl} url={invitationUrl}/><button className="button full" onClick={close}>{common('close')}</button></>:<>
         <p className="form-hint">{t('inviteHint')}</p>

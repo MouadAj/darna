@@ -4,6 +4,8 @@ Deployment instructions for the free hosting setup are in [docs/deployment.md](d
 
 Darna is a mobile-first, installable family-home app for household essentials, shopping, small home issues, family invitations, and a shared activity history. It is designed around fast, recognizable actions and large, labeled controls.
 
+Install on your phone: open [Darna’s installation guide](https://darna-ochre-eight.vercel.app/en/install). Android users can install from Chrome; iPhone and iPad users can add Darna through Safari’s Share menu. The guide is also available in French and Arabic, and linked from Welcome and Family → Your account. See [PWA setup and verification](docs/pwa.md).
+
 ## Architecture
 
 This repository is an npm-workspaces monorepo:

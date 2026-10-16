@@ -435,6 +435,54 @@ h2, h3 {font-weight:600}
 .refresh-indicator:empty {visibility:hidden}
 .refresh-indicator .loading-spinner {width:14px!important;height:14px!important}
 .home-creation-result {min-height:140px;display:grid;align-content:center;gap:18px}
+
+/* Public installation guide, with the same calm surfaces as the household UI. */
+.install-page {width:min(100%,1040px);margin-inline:auto;padding:28px 32px 48px}
+.install-header {display:flex;align-items:center;justify-content:space-between;gap:16px}
+.install-header>a:first-child {display:inline-flex;border-radius:12px}
+.install-header .text-button {display:inline-flex;align-items:center;text-align:end;font-size:14px}
+.install-hero {max-width:650px;margin:56px auto 36px;text-align:center}
+.install-app-icon {display:grid;place-items:center;width:92px;height:92px;margin:0 auto 28px;border:1px solid var(--line);border-radius:26px;background:var(--surface);box-shadow:var(--shadow)}
+.install-app-icon .brand-logo-image {width:68px;height:68px}
+.install-hero h1 {font-size:clamp(32px,5vw,46px);font-weight:700;line-height:1.14;letter-spacing:-.04em;text-wrap:balance;margin:14px 0 18px}
+.install-intro {font-size:18px;line-height:1.65;color:var(--muted);max-width:510px;margin:0 auto 24px}
+.install-primary {min-width:220px;margin-block:4px 8px}
+.install-feedback {color:var(--muted);font-size:14px;line-height:1.6;max-width:500px;margin:16px auto 0}
+.install-status {display:flex;align-items:center;gap:14px;text-align:start;padding:20px;border:1px solid #cddfd1;border-radius:20px;background:var(--green-soft);color:var(--green)}
+.install-status>svg {width:var(--icon-xl);height:var(--icon-xl)}
+.install-status h2 {margin:0 0 4px;font-size:19px}
+.install-status p {margin:0;font-size:15px}
+.install-warning {padding:16px;border-radius:16px;background:var(--amber-soft);color:var(--amber);font-size:14px;line-height:1.6}
+.install-warning .text-button {color:inherit}
+.install-guides {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.install-guide {padding:28px;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);min-width:0}
+.install-guide-heading {display:flex;align-items:center;gap:12px}
+.install-guide-heading .section-icon {width:44px;height:44px;border-radius:14px}
+.install-guide h2 {margin:0;font-size:21px;line-height:1.3}
+.install-guide-heading p {margin:4px 0 0;color:var(--muted);font-size:14px}
+.install-guide ol {list-style:none;counter-reset:install-step;display:grid;gap:20px;padding:0;margin:28px 0 24px}
+.install-guide li {counter-increment:install-step;display:grid;grid-template-columns:28px minmax(0,1fr);align-items:start;gap:12px;font-size:16px;line-height:1.65}
+.install-guide li:before {content:counter(install-step);display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--surface-soft);color:var(--green);font-size:13px;font-weight:600}
+.install-guide-note {font-size:14px;line-height:1.65;color:var(--muted);margin:0;padding-block-start:18px;border-top:1px solid var(--line)}
+.install-details {display:grid;gap:14px;max-width:700px;margin:32px auto}
+.install-details p {display:flex;align-items:flex-start;gap:10px;margin:0;color:var(--muted);font-size:14px;line-height:1.65}
+.install-details svg {width:var(--icon-md);height:var(--icon-md);color:var(--green);margin-top:2px}
+.install-continue {display:flex;justify-content:center}
+.install-link {min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:10px 12px;border-radius:12px;color:var(--green);font-size:15px;font-weight:600}
+.install-link svg {width:var(--icon-md);height:var(--icon-md)}
+.welcome-install {display:flex;margin:18px auto 0;width:max-content;max-width:100%}
+.account-install {margin-block-start:20px;width:100%;border:1px solid var(--line);background:var(--bg)}
+@media (hover:hover) and (pointer:fine) {.install-link:hover {background:var(--green-soft)}}
+@media (max-width:640px) {
+ .install-page {padding:20px 20px 36px}
+ .install-hero {margin-block:36px 28px}
+ .install-app-icon {width:80px;height:80px;border-radius:23px;margin-block-end:24px}
+ .install-app-icon .brand-logo-image {width:60px;height:60px}
+ .install-intro {font-size:16px}
+ .install-guides {grid-template-columns:1fr;gap:16px}
+ .install-guide {padding:22px}
+ .install-primary {width:100%}
+}
 @keyframes skeleton-pulse {0%,100% {opacity:1} 50% {opacity:.5}}
 @keyframes loading-spin {to {transform:rotate(360deg)}}
 @media (min-width:1024px) {

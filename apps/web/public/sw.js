@@ -1,4 +1,4 @@
-const SHELL_CACHE = 'darna-shell-v3';
+const SHELL_CACHE = 'darna-shell-v4';
 const OFFLINE_URL = '/offline.html';
 const BRAND_URL = '/brand/housefamily-mark.png';
 
@@ -8,7 +8,7 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key !== SHELL_CACHE).map((key) => caches.delete(key)))));
+  event.waitUntil(caches.keys().then((keys) => Promise.all(keys.filter((key) => key.startsWith('darna-shell-') && key !== SHELL_CACHE).map((key) => caches.delete(key)))));
   self.clients.claim();
 });
 
