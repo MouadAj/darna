@@ -96,6 +96,8 @@ npm test            # critical API service and UI interaction tests
 
 The production web build registers `public/sw.js`, supplies a web manifest and maskable icon, supports standalone display, and provides a calm offline fallback. The service worker intentionally does **not** cache authenticated API responses or private household data.
 
+The in-app notification bell shows important updates from the signed-in user’s current home: new needs, urgent items, and shopping trips starting or finishing. Only other current members of that home receive an alert. Each member has an independent unread count and read state. The inbox supports older entries, refreshes every 30 seconds while visible, and refreshes immediately when opened, focused, or reconnected. Messages follow the current English, French, or Arabic interface language.
+
 The database and authenticated subscription endpoint are prepared for Web Push. A production deployment still needs VAPID keys, a push-delivery worker/provider, notification preference rules, and HTTPS. The product UI should explain notification value before calling the browser permission API.
 
 ## Environment variables

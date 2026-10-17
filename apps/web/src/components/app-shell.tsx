@@ -10,6 +10,7 @@ import type {SessionUser} from '@/lib/types';
 import {ActionError, ErrorState} from './ui';
 import {BrandLogo} from './brand-logo';
 import {SessionLoader} from './loading';
+import {NotificationsCenter} from './notifications-center';
 import {needsHref} from '@/lib/needs-filters';
 
 export function AppShell({children}: {children: React.ReactNode}) {
@@ -62,7 +63,7 @@ export function AppShell({children}: {children: React.ReactNode}) {
       })}</nav>
       <Link href={`/${locale}/family#account-title`} className="sidebar-account"><span className="avatar">{me.data.name.slice(0, 1).toUpperCase()}</span><span className="sidebar-account-copy"><strong>{me.data.name}</strong><span>{t('yourAccount')}</span></span><ChevronRight aria-hidden="true"/></Link>
     </aside>
-    <main className="app-content">{me.isError && <ActionError message={common('loadFailed')} retry={()=>void me.refetch()} pending={me.isFetching}/ >}{children}</main><nav className="bottom-nav" aria-label={t('primaryNavigation')}>{entries.map(({href, label, Icon, exact, add}) => {
+    <main className="app-content"><div className="app-utility-bar"><NotificationsCenter key={`${me.data.householdId}:${me.data.id}`} userId={me.data.id} householdId={me.data.householdId}/></div>{me.isError && <ActionError message={common('loadFailed')} retry={()=>void me.refetch()} pending={me.isFetching}/ >}{children}</main><nav className="bottom-nav" aria-label={t('primaryNavigation')}>{entries.map(({href, label, Icon, exact, add}) => {
     const hrefPath = href.split('?')[0];
     const active = !add && (exact ? pathname === hrefPath : pathname.startsWith(hrefPath));
     return <Link href={href} key={label} className={`${active ? 'active' : ''} ${add ? 'nav-add' : ''}`} aria-current={active ? 'page' : undefined}><span className="nav-icon"><Icon aria-hidden="true"/></span><span>{label}</span></Link>;

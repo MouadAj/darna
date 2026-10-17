@@ -13,6 +13,7 @@ import IssuesPage from '@/app/[locale]/(app)/issues/page';
 import {AppShell} from './app-shell';
 
 const mocks=vi.hoisted(()=>({api:vi.fn(),replace:vi.fn()}));
+vi.mock('./notifications-center',()=>({NotificationsCenter:()=>null}));
 vi.mock('next/navigation',()=>({useParams:()=>({locale:'en'}),usePathname:()=>'/en',useSearchParams:()=>new URLSearchParams(),useRouter:()=>({replace:mocks.replace,push:vi.fn()})}));
 vi.mock('@/lib/api',async original=>({...await original<typeof import('@/lib/api')>(),api:mocks.api}));
 const noHome:SessionUser={id:'u',name:'Mouad',email:'m@example.test',preferredLocale:'en',householdId:null,householdName:null,role:null};

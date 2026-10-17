@@ -341,5 +341,33 @@
     "edit": "Edit details",
     "editTitle": "Edit details · {name}",
     "saved": "Quantity and note saved"
+  },
+  "inbox": {
+    "title": "Notifications",
+    "open": "{count, plural, =0 {Notifications, none unread} one {Notifications, 1 unread} other {Notifications, # unread}}",
+    "householdOnly": "Important updates from your home.",
+    "readAll": "Mark all as read",
+    "empty": "You’re all caught up",
+    "emptyBody": "New needs, urgent items and shopping updates from your family will appear here.",
+    "unread": "Unread",
+    "older": "Load older notifications",
+    "events": {
+      "ITEM_NEEDED": {
+        "title": "Something is needed",
+        "body": "{actor} added {item} to what your home needs."
+      },
+      "ITEM_URGENT": {
+        "title": "An urgent household need",
+        "body": "{actor} marked {item} as urgently needed."
+      },
+      "SHOPPING_STARTED": {
+        "title": "Shopping has started",
+        "body": "{actor} started shopping for your home."
+      },
+      "SHOPPING_COMPLETED": {
+        "title": "Shopping is finished",
+        "body": "{actor} finished shopping. Check Needs for anything still outstanding."
+      }
+    }
   }
 }

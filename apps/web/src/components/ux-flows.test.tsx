@@ -10,6 +10,7 @@ import {AppShell} from './app-shell';
 import {AddNeedSheet} from './add-need-sheet';
 
 const mocks=vi.hoisted(()=>({api:vi.fn(),replace:vi.fn(),push:vi.fn(),search:'',pathname:'/en'}));
+vi.mock('./notifications-center',()=>({NotificationsCenter:()=>null}));
 vi.mock('next/navigation',()=>({useParams:()=>({locale:'en'}),usePathname:()=>mocks.pathname,useSearchParams:()=>new URLSearchParams(mocks.search),useRouter:()=>({replace:mocks.replace,push:mocks.push})}));
 vi.mock('@/lib/api',async importOriginal=>({...await importOriginal<typeof import('@/lib/api')>(),api:mocks.api}));
 const me:SessionUser={id:'user',name:'Mouad',email:'demo@example.test',householdId:'home',householdName:'Family',preferredLocale:'en',role:'OWNER'};
