@@ -270,11 +270,13 @@ model Notification {
   body        String             @db.VarChar(300)
   status      NotificationStatus @default(UNREAD)
   kind        String             @db.VarChar(60)
+  data        Json?
   household   Household          @relation(fields: [householdId], references: [id], onDelete: Cascade)
   user        User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt   DateTime           @default(now())
 
   @@index([householdId, userId, status])
+  @@index([householdId, userId, createdAt, id])
 }
 
 model PushSubscription {

@@ -47,3 +47,12 @@ export interface ItemSummary {
   updatedBy: {id: string; name: string};
   updatedAt: string;
 }
+
+export const notificationKinds = ['ITEM_NEEDED', 'ITEM_URGENT', 'SHOPPING_STARTED', 'SHOPPING_COMPLETED'] as const;
+export type NotificationKind = (typeof notificationKinds)[number];
+export interface NotificationEventData {actorName: string; subjectName?: string; target: 'needs' | 'shopping'}
+export interface HouseholdNotification {
+  id: string; kind: string; title: string; body: string;
+  data: NotificationEventData | null; status: 'UNREAD' | 'READ'; createdAt: string;
+}
+export interface NotificationInbox {items: HouseholdNotification[]; unreadCount: number; nextCursor: string | null}

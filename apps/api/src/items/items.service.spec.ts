@@ -2,9 +2,9 @@ import {NotFoundException} from '@nestjs/common';
 import {ItemsService} from './items.service.js';
 
 describe('ItemsService household isolation', () => {
-  const prisma = {item: {findFirst: jest.fn(), create: jest.fn(), update: jest.fn()}, activity: {create: jest.fn()}};
+  const prisma = {$transaction: jest.fn(), $queryRaw: jest.fn(), householdMember: {findMany: jest.fn()}, item: {findFirst: jest.fn(), create: jest.fn(), update: jest.fn()}, activity: {create: jest.fn()}};
   const service = new ItemsService(prisma as never);
-  beforeEach(() => jest.clearAllMocks());
+  beforeEach(() => {jest.clearAllMocks();prisma.$transaction.mockImplementation(callback=>callback(prisma));prisma.householdMember.findMany.mockResolvedValue([]);});
 
   it('requires both item id and authenticated household id', async () => {
     prisma.item.findFirst.mockResolvedValue(null);

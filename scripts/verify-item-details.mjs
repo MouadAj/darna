@@ -12,8 +12,9 @@ try {
   await prisma.$transaction(async tx => {
     const user = await tx.user.create({data: {name: 'Details verification', email: `details-${crypto.randomUUID()}@example.test`}});
     const home = await tx.household.create({data: {name: 'Details verification', ownerId: user.id}});
-    const items = new ItemsService(tx);
-    const shopping = new ShoppingService({...tx, $transaction: callback => callback(tx)});
+    const client = {...tx, $queryRaw: tx.$queryRaw.bind(tx), $transaction: callback => callback(client)};
+    const items = new ItemsService(client);
+    const shopping = new ShoppingService(client);
     const old = await items.create(home.id, user.id, {name: 'Existing client', visualKey: 'milk'});
     assert.equal(old.quantity, null); assert.equal(old.notes, null);
     const item = await items.create(home.id, user.id, {name: 'Milk', visualKey: 'milk', quantity: '2 bottles', notes: '<b>Organic</b>'});
