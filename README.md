@@ -49,7 +49,7 @@ French and Arabic routes are available at `/fr` and `/ar`. Arabic uses an RTL-re
 
 ## Development data and authentication
 
-The seed creates **Ajmani Family** with Mouad (owner), Fatima, Ahmed, and Sara; a realistic essentials catalog; needed/low items; activity; home issues; and one pending invitation.
+The seed creates **Darna Home** with Mouad (owner), Fatima, Ahmed, and Sara; a realistic essentials catalog; needed/low items; activity; home issues; and one pending invitation.
 
 On the welcome screen, choose **View the demo home**, or use the normal login form with:
 

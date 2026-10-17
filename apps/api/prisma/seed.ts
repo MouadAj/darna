@@ -29,7 +29,7 @@ async function main() {
     prisma.user.create({data: {name: 'Ahmed', email: 'ahmed@housefamily.local', passwordHash, emailVerifiedAt: verified}}),
     prisma.user.create({data: {name: 'Sara', email: 'sara@housefamily.local', passwordHash, emailVerifiedAt: verified}}),
   ]);
-  const household = await prisma.household.create({data: {name: 'Ajmani Family', ownerId: mouad.id}});
+  const household = await prisma.household.create({data: {name: 'Darna Home', ownerId: mouad.id}});
   await prisma.householdMember.createMany({data: [
     {householdId: household.id, userId: mouad.id, role: 'OWNER'},
     {householdId: household.id, userId: fatima.id, role: 'MEMBER'},
@@ -71,7 +71,7 @@ async function main() {
     householdId: household.id, invitedName: 'Yasmine', invitedEmail: 'yasmine@example.com',
     tokenHash: createHash('sha256').update(inviteToken).digest('hex'), expiresAt: new Date(Date.now() + 7 * 86_400_000),
   }});
-  console.info('Seeded Ajmani Family');
+  console.info('Seeded Darna Home');
   console.info('Development sign-in: mouad@housefamily.local / HouseFamily2026!');
   console.info(`Development invitation: http://localhost:3000/en/invite/${inviteToken}`);
 }

@@ -6,7 +6,7 @@ import {InvitationsService} from './invitations.service.js';
 describe('InvitationsService acceptance', () => {
   it('creates the invited membership and accepts the one-time invitation', async () => {
     const token = 'a'.repeat(40);
-    const invitation = {id: 'invite-a', householdId: 'household-a', invitedName: 'Fatima', invitedEmail: 'fatima@example.com', status: 'PENDING', expiresAt: new Date(Date.now() + 60_000), household: {name: 'Ajmani Family'}};
+    const invitation = {id: 'invite-a', householdId: 'household-a', invitedName: 'Fatima', invitedEmail: 'fatima@example.com', status: 'PENDING', expiresAt: new Date(Date.now() + 60_000), household: {name: 'Darna Home'}};
     const tx = {
       user: {findUnique: jest.fn().mockResolvedValue(null), create: jest.fn().mockResolvedValue({id: 'user-f', name: 'Fatima', preferredLocale: 'FR'})},
       householdMember: {findUnique: jest.fn().mockResolvedValue(null), create: jest.fn()},
